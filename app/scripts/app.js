@@ -18,28 +18,60 @@ angular
     'ngSanitize',
     'ngTouch',
 	'ui.router',
-	'pdf',
+	'pdf'
   ])
 
 
   
   .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
-                    // route for the home page -> mediadata overview
-            .state('mediadata', {
+				 // route for the login page -> 
+			.state('login', {
+                url:'/login',
+                views: {
+					'': { templateUrl: 'views/login.html',
+						controller  : 'LoginController'}
+                    
+                },
+				module: 'public'
+            })
+			
+				 // route for the login page -> 
+			.state('register', {
+                url:'/register',
+                views: {
+					'': { templateUrl: 'views/register.html',
+						controller  : 'RegisterController'}
+                    
+                },
+				module: 'public'
+            })
+			
+			        // route for the home page -> mediadata overview
+            .state('app', {
                 url:'/',
+                views: {
+					'': { templateUrl: 'views/home.html' } 
+                },
+				module: 'private'
+            })
+			
+                    // route for the home page -> mediadata overview
+            .state('app.mediadata', {
+                url:'mediadata',
                 views: {
                     'header': {
                         templateUrl : 'views/header.html'
                     },
                     'content': {
                         templateUrl : 'views/main.html',
-                        controller  : 'ObjectController'
+                        controller  : 'ProductController'
                     },
                     'sidebar': {
                         templateUrl : 'views/sidebar/mediadata.html'
                     }
-                }
+                },
+				module: 'private'
             })
                     // route for general information - technical information
             .state('mediadata.gentech', {
@@ -47,9 +79,10 @@ angular
                 views: {
                     'content@': {
                         templateUrl : 'views/content/pdf_view.html',
-						controller  : 'ObjectController'
+						controller  : 'ProductController'
                    }
-                }
+                },
+				module: 'private'
             })
                     // route for the consultant pages
             .state('mediadata.consultant', {
@@ -62,7 +95,8 @@ angular
 					 'sidebar@': {
                         templateUrl : 'views/sidebar/consultantarea.html',
                      }
-                }
+                },
+				module: 'private'
             })
 			
 			  // route for the consultant pages
@@ -74,7 +108,52 @@ angular
                         templateUrl : 'views/content/newscribble.html',
                         controller  : 'PublicationsController'
                      }
-                }
+                },
+				module: 'private'
             });
-            $urlRouterProvider.otherwise('/');
-    });
+            $urlRouterProvider.otherwise('/login');
+    })
+	
+	
+	 .run(function($state, $rootScope, $location, $cookieStore, $http) {
+		 // keep user logged in after page refresh
+        $rootScope.globals = $cookieStore.get('globals') || {};
+        if ($rootScope.globals.currentUser) {
+             $http.defaults.headers.common['x-access-token'] = $rootScope.globals.currentUser.authToken; // jshint ignore:line
+        }
+		
+		$rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+			var loggedIn = $rootScope.globals.currentUser;
+			if (toState.module === 'private' && !loggedIn) {
+				// If logged out and transitioning to a logged in page:
+				e.preventDefault();
+				$state.go('login');
+			} 
+		});
+		
+	 });
+	
+
+		
+	/*
+	run.$inject = ['$rootScope', '$location', '$cookieStore', '$http'];
+    function run($rootScope, $location, $cookieStore, $http) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookieStore.get('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+        }
+ 
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in and trying to access a restricted page
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            var loggedIn = $rootScope.globals.currentUser;
+            if (restrictedPage && !loggedIn) {
+                $location.path('/login');
+            }
+        });
+    }
+	*/
+	
+	
+
