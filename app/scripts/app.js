@@ -61,14 +61,16 @@ angular
                 url:'mediadata',
                 views: {
                     'header': {
-                        templateUrl : 'views/header.html'
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
                     },
                     'content': {
                         templateUrl : 'views/main.html',
                         controller  : 'ProductController'
                     },
                     'sidebar': {
-                        templateUrl : 'views/sidebar/mediadata.html'
+                        templateUrl : 'views/sidebar/mediadata.html',
+						controller  : 'ProductController'
                     }
                 },
 				module: 'private'

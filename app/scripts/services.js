@@ -41,6 +41,9 @@ angular.module('mediaAppApp')
 			service.Login = Login;
 			service.SetCredentials = SetCredentials;
 			service.ClearCredentials = ClearCredentials;
+			service.Logout = Logout;
+			service.getUsername = getUsername;
+			service.isAuthenticated = isAuthenticated;
 			
 			function Login(username, password, callback) {
  
@@ -61,7 +64,7 @@ angular.module('mediaAppApp')
  
             /* Use this for real authentication
              ----------------------------------------------*/
-            $http.post(baseURL + '/members/login', { username: username, password: password })
+            $http.post(baseURL + 'members/login', { username: username, password: password })
                 .then(function successCallback(response) {
 				// this callback will be called asynchronously
 				// when the response is available
@@ -78,7 +81,8 @@ angular.module('mediaAppApp')
  
         function SetCredentials(username, password, userid, authToken) {
             var authdata = Base64.encode(username + ':' + password);
- 
+			
+			
             $rootScope.globals = {
                 currentUser: {
                     username: username,
@@ -97,6 +101,44 @@ angular.module('mediaAppApp')
             $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
         }
+		
+		
+		//logout
+		function Logout() {
+			$http.post(baseURL + 'members/logout')
+                .then(function successCallback(response) {
+				// this callback will be called asynchronously
+				// when the response is available
+				ClearCredentials();
+				
+			  }, function errorCallback(response) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+				//response.success = false;
+				//callback(response);
+			  });
+		}
+		
+		
+		function getUsername() {
+			return $rootScope.globals.currentUser.username;
+		}
+		
+	
+		
+		function isAuthenticated(){
+			if ($rootScope.globals == {}) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		
+		
+		
+		
+		
 		
 		 // Base64 encoding service used by AuthenticationService
     var Base64 = {
@@ -194,6 +236,7 @@ angular.module('mediaAppApp')
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+
  
         
  
@@ -232,6 +275,9 @@ angular.module('mediaAppApp')
                 return { success: false, message: error };
             };
         }
+		
+		
+		
 		
 		return service;
 		

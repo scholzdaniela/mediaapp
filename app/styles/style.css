@@ -16,3 +16,32 @@
 	color: #5cb85c;
 }
 
+.login-form{
+	color: white;
+}
+
+.header-toggle{
+	color: #999;
+	padding-top: 18px;
+	padding-bottom: 8px;
+	line-height: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.a-sidebar{
+	color: #999;
+	padding-left: 40px;
+	
+}
+
+.a-sidebar:hover{
+	color: white;
+	text-decoration: none;
+	line-height: 30px;
+}
+
+.list-sidebar{
+	padding-bottom: 10px;
+	line-height: 30px;
+}

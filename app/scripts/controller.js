@@ -13,19 +13,38 @@ angular.module('mediaAppApp')
 				
 		}])
 		
-		.controller('PublicationDetailController', ['$scope', 'objectsFactory', function($scope, objectsFactory) {
-				$scope.publication= objectsFactory.getPublication(0);
+		.controller('PublicationDetailController', ['$scope', 'objectsFactory', '$stateParams', function($scope, objectsFactory, $stateParams) {
+				$scope.publication= objectsFactory.getPublication($stateParams.id);
 		}])
+		
+		
 		
 		.controller('DocCtrl', ['$scope', function($scope) {
 			$scope.pdfUrl = 'pdf/Mediadaten-2016-Print_11.pdf';
+		}])
+		
+		.controller('DocumentsController', ['$scope', 'productFactory', function($scope, productFactory) {
+				$scope.documents;
+				console.log($scope.product.id);
+				
+				//get documents of product
+			function getDocuments() {
+				productFactory.getDocuments($scope.product.id)
+					.then(function (response) {
+						$scope.documents = response.data;
+					}, function (error) {
+						$scope.status = 'Unable to load documents data: ' + error.message;
+					});
+			}
+				
+				getDocuments();
 		}])
 		
 		.controller('ProductController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
 			
 			$scope.status;
 			$scope.products;
-			$scope.documents;
+			
 			$scope.product = {};
 			
 
@@ -69,21 +88,7 @@ angular.module('mediaAppApp')
 					});
 			};
 			
-			//get documents of product
-			$scope.getDocuments = function (product_id) {
-				console.log('product id ' + product_id);
-				var result = {};
-				productFactory.getDocuments(product_id)
-					.then(function (response) {
-						result = response.data;
-						console.log(response.data);
-						return response.data
-						//return result;
-					}, function (error) {
-						result = error.message;
-						return result;
-					});
-			};
+			
 			
 			
 		}])
@@ -132,7 +137,7 @@ angular.module('mediaAppApp')
 		}
 	*/	
 	
-	.controller('LoginController', ['$scope', '$location', 'AuthenticationService', 'FlashService', '$state', function($scope, $location, AuthenticationService, FlashService, $state) {
+	.controller('LoginController', ['$scope', '$location', 'AuthenticationService', 'FlashService', '$state', 'UserService', function($scope, $location, AuthenticationService, FlashService, $state, UserService) {
 			
 			
 	 
@@ -168,6 +173,38 @@ angular.module('mediaAppApp')
 				});
 			}
 		}])
+		
+		
+		.controller('HeaderController', ['$scope', '$state', '$rootScope', 'AuthenticationService', function ($scope, $state, $rootScope, AuthenticationService) {
+
+			$scope.loggedIn = false;
+			$scope.username = '';
+			$scope.isAdmin = true;
+			
+			if(AuthenticationService.isAuthenticated()) {
+				$scope.loggedIn = true;
+				$scope.username = AuthenticationService.getUsername();
+
+			}
+
+			$scope.logOut = function() {
+			   AuthenticationService.Logout();
+				$scope.loggedIn = false;
+				$scope.username = '';
+				$state.go('login');
+			};
+			
+			
+			
+			
+
+			/*
+			$scope.stateis = function(curstate) {
+			   return $state.is(curstate);  
+			};
+			*/
+    
+	}])
 	
 	/*
 	.controller('LoginController', LoginController);
