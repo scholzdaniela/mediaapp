@@ -1,4 +1,23 @@
 <div class="col-md-6 col-md-offset-3">
+	<!-- Cookie Modal -->
+  <div class="modal" id="cookieModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Privacy Policy</h4>
+        </div>
+        <div class="modal-body">
+          <p>Cookies erleichtern unter anderem die Bereitstellung unserer Dienste, helfen bei der Ausspielung von redaktionellen und werblichen Inhalten und der Analyse des Nutzerverhaltens. Mit der Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass wir Cookies verwenden.</p>
+        </div>
+        <div class="modal-footer">
+			<button type="button" class="btn btn-default" >Show Privacy Policy</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 	<h1 ui-sref='app.mediadata'>Media App</h1><br />
     <h2 class="login-form">Login</h2>
     <form name="form" ng-submit="login()" role="form">

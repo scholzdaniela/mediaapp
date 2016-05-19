@@ -2,12 +2,12 @@
             
                 <ul class="nav navbar-nav side-nav">
                    
-					<li ng-repeat="product in products">
+					<li ng-repeat="product in navproducts">
                         <a href="javascript:;" data-toggle="collapse" data-target="#{{product.id}}"> {{product.name}} <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="{{product.id}}" class="collapse">
 							<div ng-controller="DocumentsController">
                             <li class="list-sidebar" ng-repeat="document in documents">
-                                <a ui-sref='{{document.id}}'class="a-sidebar">{{document.name}}</a>
+                                <a ui-sref='{{'mediadata' + document.id}}'class="a-sidebar">{{document.name}}</a>
                             </li>
 							</div>
 

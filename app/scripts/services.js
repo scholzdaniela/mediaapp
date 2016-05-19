@@ -34,6 +34,19 @@ angular.module('mediaAppApp')
 
 		}])
 		
+		.factory('pdfFactory', ['$http', 'baseURL', '$state', function($http, baseURL, $state) {
+			var pdfFactory = {};
+			var container_name =  $state.current.data.container_name;
+			var filename = $state.current.data.filename;
+			
+			pdfFactory.getPDF = function () {
+				return $http.get(baseURL + 'containers/' + container_name + '/download/' + filename + '.pdf');
+			};
+
+			return pdfFactory;
+
+		}])
+		
 		
 		.factory('AuthenticationService', ['$http', 'baseURL', '$cookieStore', '$rootScope', '$timeout', 'UserService', function($http, baseURL, $cookieStore, $rootScope, $timeout, UserService) {
 			var service = {};

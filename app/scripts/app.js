@@ -70,19 +70,23 @@ angular
                     },
                     'sidebar': {
                         templateUrl : 'views/sidebar/mediadata.html',
-						controller  : 'ProductController'
+						controller  : 'SidebarController'
                     }
                 },
 				module: 'private'
             })
                     // route for general information - technical information
-            .state('mediadata.gentech', {
+            .state('mediadata.d8eac39824813f17c0916243e67b873f', {
                 url:'mediata/objects/documents/:id',
                 views: {
                     'content@': {
                         templateUrl : 'views/content/pdf_view.html',
-						controller  : 'ProductController'
-                   }
+						controller  : 'DocCtrl'
+                   },
+				   data: {
+						container_name: 'another',
+						filename: ''
+					} 
                 },
 				module: 'private'
             })

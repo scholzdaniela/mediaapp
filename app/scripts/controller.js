@@ -8,19 +8,35 @@
  * Controller of the mediaAppApp
  */
 angular.module('mediaAppApp')
-		.controller('PublicationsController', ['$scope', 'objectsFactory', function($scope, objectsFactory) {
-				$scope.publications= objectsFactory.getPublications();
-				
+		.controller('SidebarController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
+			
+			$scope.status;
+			$scope.navproducts;
+			
+			$scope.navproduct = {};
+			
+
+			
+			 
+			 function getProducts() {
+				productFactory.getProducts()
+					.then(function (response) {
+					$scope.navproducts = response.data;
+				}, function (error) {
+					$scope.status = 'Unable to load products data: ' + error.message;
+				});
+			}
+			getProducts();
+		
 		}])
 		
-		.controller('PublicationDetailController', ['$scope', 'objectsFactory', '$stateParams', function($scope, objectsFactory, $stateParams) {
-				$scope.publication= objectsFactory.getPublication($stateParams.id);
-		}])
 		
-		
-		
-		.controller('DocCtrl', ['$scope', function($scope) {
-			$scope.pdfUrl = 'pdf/Mediadaten-2016-Print_11.pdf';
+		.controller('DocCtrl', ['$scope', 'pdfFactory', function($scope, pdfFactory) {
+			
+			var container_name =  $state.current.data.container_name;
+			var filename = $state.current.data.filename;
+
+			$scope.pdfUrl = 'http://mediaapp-restserver.eu-gb.mybluemix.net/api/' + 'containers/' + container_name + '/download/' + filename + '.pdf';
 		}])
 		
 		.controller('DocumentsController', ['$scope', 'productFactory', function($scope, productFactory) {
