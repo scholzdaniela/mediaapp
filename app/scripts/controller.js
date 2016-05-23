@@ -128,6 +128,29 @@ angular.module('mediaAppApp')
 					});
 			}
 		}])
+		
+		//list controller
+		.controller('ListController', ['$scope', 'listFactory', '$state', 'AuthenticationService', function($scope, listFactory, $state, AuthenticationService) {
+				$scope.list;
+				var title =  $state.current.data.title;
+				var userId = AuthenticationService.getUserId;
+				$scope.title = title;
+				
+				
+				//get documents of product
+			function getList() {
+				listFactory.getList(title, userId)
+					.then(function (response) {
+						$scope.list = response.data;
+					}, function (error) {
+						$scope.status = 'Unable to load documents data: ' + error.message;
+					});
+			}
+				
+				getList();
+		}])
+		
+		
 	/*	
 	.controller('RegisterController', RegisterController);
 	 

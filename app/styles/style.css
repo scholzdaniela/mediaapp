@@ -41,7 +41,38 @@
 	line-height: 30px;
 }
 
+.a-sidebar:visited{
+	color: white;
+	text-decoration: none;
+	line-height: 30px;
+}
+
+.a-sidebar:hover{
+	color: white;
+	text-decoration: none;
+	line-height: 30px;
+	background-color: black;
+}
+
+.a-sidebar:active{
+	color: white;
+	text-decoration: none;
+	line-height: 30px;
+}
+
+.a-sidebar:focus{
+	color: white;
+	text-decoration: none;
+	line-height: 30px;
+}
+
 .list-sidebar{
 	padding-bottom: 10px;
 	line-height: 30px;
+}
+
+.list-sidebar:focus{
+	padding-bottom: 10px;
+	line-height: 30px;
+	background-color: white;
 }

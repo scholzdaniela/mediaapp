@@ -57,6 +57,7 @@ angular.module('mediaAppApp')
 			service.Logout = Logout;
 			service.getUsername = getUsername;
 			service.isAuthenticated = isAuthenticated;
+			service.getUserId = getUserId;
 			
 			function Login(username, password, callback) {
  
@@ -135,6 +136,10 @@ angular.module('mediaAppApp')
 		
 		function getUsername() {
 			return $rootScope.globals.currentUser.username;
+		}
+		
+		function getUserId() {
+			return $rootScope.globals.currentUser.userid;
 		}
 		
 	
@@ -340,7 +345,31 @@ angular.module('mediaAppApp')
         }
 		return service;
 
-	}]);
+	}])
+	
+	.factory('listFactory', ['$http', 'baseURL', function($http, baseURL) {
+		var listFactory = {};
+		
+		listFactory.getList = function (title, userid) {
+			if (title == 'Notes'){
+				return $http.get(baseURL + 'members/' + userid + 'note');
+			} else if (title == 'Customers'){
+				return $http.get(baseURL + 'members/' + userid + 'customer');
+			} else if (title == 'Scribbles'){
+				return $http.get(baseURL + 'members/' + userid + 'scribble');
+			} else {
+				throw {
+					name: "ListFactoryException",
+					message: "Something is wrong with the title",
+					}
+			}
+			
+		};
+		
+
+		return listFactory;
+
+		}]);
 	
 	/*	
      .factory('AuthenticationService', AuthenticationService);

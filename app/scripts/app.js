@@ -53,7 +53,8 @@ angular
                 views: {
 					'': { templateUrl: 'views/home.html' } 
                 },
-				module: 'private'
+				module: 'private',
+				abstract: true
             })
 			
                     // route for the home page -> mediadata overview
@@ -76,31 +77,162 @@ angular
 				module: 'private'
             })
                     // route for general information - technical information
-            .state('mediadata.d8eac39824813f17c0916243e67b873f', {
-                url:'mediata/objects/documents/:id',
+            .state('app.mediadata.d8eac39824813f17c0916243e67b873f', {
+                url:'/objects/documents/d8eac39824813f17c0916243e67b873f',
                 views: {
-                    'content@': {
+                    '@content': {
                         templateUrl : 'views/content/pdf_view.html',
 						controller  : 'DocCtrl'
                    },
 				   data: {
 						container_name: 'another',
-						filename: ''
+						filename: 'Mediadaten-2016-Print_11',
+						title: 'Mediadaten'
 					} 
                 },
 				module: 'private'
             })
-                    // route for the consultant pages
-            .state('mediadata.consultant', {
-                url:'consultant',
+			
+			// route for 
+            .state('app.mediadata.1eb304bbcd9cafb145b0f601b24ca392', {
+                url:'/objects/documents/1eb304bbcd9cafb145b0f601b24ca392',
                 views: {
-                    'content@': {
+                    'content': {
+                        templateUrl : 'views/content/pdf_view.html',
+						controller  : 'DocCtrl'
+                   },
+				   data: {
+						container_name: 'another',
+						filename: 'Mediadaten-2016-Print_11',
+						title: 'Mediadaten'
+					} 
+                },
+				module: 'private'
+            })
+			
+			// route for 
+            .state('app.mediadata.8ca1bf31aacc4ebcecf6c2e9c0c8c380', {
+                url:'/objects/documents/8ca1bf31aacc4ebcecf6c2e9c0c8c380',
+                views: {
+                    'content': {
+                        templateUrl : 'views/content/pdf_view.html',
+						controller  : 'DocCtrl'
+                   },
+				   data: {
+						container_name: 'another',
+						filename: 'Mediadaten-2016-Print_11',
+						title: 'Mediadaten'
+					} 
+                },
+				module: 'private'
+            })
+			
+			
+			        // route for the calculator pages
+            .state('app.calculator', {
+                url:'calculator',
+                views: {
+					'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content': {
+                        templateUrl : 'views/content/calculator.html',
+                        controller  : ''
+                     }
+                },
+				module: 'private'
+            })
+			
+                    // route for the consultant pages
+            .state('app.consultantarea', {
+                url:'consultantarea',
+                views: {
+					'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content': {
                         templateUrl : 'views/404.html',
-                        controller  : 'PublicationsController'
+                        controller  : ''
+                     },
+					 'sidebar': {
+                        templateUrl : 'views/sidebar/consultantarea.html'
+                     },
+					 data: {
+						container_name: '',
+						filename: '',
+						title: 'Consultant Area'
+					} 
+                },
+				module: 'private'
+            })
+			
+			       // route for the consultant pages
+            .state('app.consultantarea.customer', {
+                url:'/customer',
+                views: {
+					
+                    'content': {
+                        templateUrl : '/views/content/list.html',
+                        controller  : 'ListController'
+                     },
+					 
+					 data: {
+						container_name: '',
+						filename: '',
+						title: 'Customers'
+					} 
+                },
+				module: 'private'
+            })
+			
+			       // route for the consultant pages
+            .state('app.consultantarea.scribbles', {
+                url:'/scribbles',
+                views: {
+					'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content@': {
+                        templateUrl : '/views/content/list.html',
+                        controller  : 'ListController'
                      },
 					 'sidebar@': {
-                        templateUrl : 'views/sidebar/consultantarea.html',
-                     }
+                        templateUrl : 'views/sidebar/consultantarea.html'
+						
+                     },
+					 data: {
+						container_name: '',
+						filename: '',
+						title: 'Scribbles'
+					} 
+                },
+				module: 'private'
+            })
+			
+			       // route for the consultant pages
+            .state('app.consultantarea.notes', {
+                url:'/notes',
+                views: {
+					'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content': {
+                        templateUrl : '/views/content/list.html',
+                        controller  : 'ListController'
+                     },
+					 'sidebar@': {
+                        templateUrl : 'views/sidebar/consultantarea.html'
+						
+                     },
+					 data: {
+						container_name: '',
+						filename: '',
+						title: 'Notes'
+					} 
                 },
 				module: 'private'
             })
@@ -112,7 +244,7 @@ angular
                 views: {
                     'content@': {
                         templateUrl : 'views/content/newscribble.html',
-                        controller  : 'PublicationsController'
+                        controller  : ''
                      }
                 },
 				module: 'private'
