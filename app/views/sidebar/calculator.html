@@ -1,0 +1,9 @@
+ <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            
+                <ul class="nav navbar-nav side-nav">
+                   
+					<li ng-repeat="product in navproducts">
+                        <a ui-sref="app.calculator.{{document.id}}" class="a-sidebar">{{document.name}}</a>
+                    </li>
+
+                </ul>

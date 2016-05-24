@@ -1,0 +1,87 @@
+ <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            {{title}} <small>Add new one</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+					
+                    <div class="col-lg-3 col-md-6" ng-if="title=='Notes'">
+						<!-- form for notes -->
+                        <form name="add_Form" ng-submit="addNote()" role="form">
+							
+								<div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required}">
+									<label for="name">Name</label>
+									<input type="text" class="form-control" id="name" placeholder="" ng-model="note.name" required>
+									<span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
+								</div>
+								<div class="form-group" ng-class="{ 'has-error': form.content.$dirty && form.content.$error.required}">
+									<label for="content">Content</label>
+									<input type="text" class="form-control" id="content" placeholder="" ng-model="note.content" required>
+									<span ng-show="form.content.$dirty && form.content.$error.required" class="help-block">Content is required</span>
+								</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Submit</button>
+							  </div>
+						</form>
+                    </div>
+					
+					<div class="col-lg-3 col-md-6" ng-if="title=='Customers'">
+						<!-- form for notes -->
+                        <form name="add_Form" ng-submit="addCustomer()" role="form">
+							
+								<div class="form-group" ng-class="{ 'has-error': form.name.$dirty && form.name.$error.required}">
+									<label for="name">Name</label>
+									<input type="text" class="form-control" id="name" placeholder="" ng-model="customer.name">
+									<span ng-show="form.name.$dirty && form.name.$error.required" class="help-block">Name is required</span>
+								</div>
+								<div class="form-group">
+									<label for="contact_person">Contact Person</label>
+									<input type="text" class="form-control" id="contact_person" placeholder="" ng-model="customer.contact_person">
+									
+								</div>
+								<div class="form-group">
+									<label for="mobile">Mobile</label>
+									<input type="text" class="form-control" id="mobile" placeholder="" ng-model="customer.mobile">
+								</div>
+								<div class="form-group">
+									<label for="phone">Phone</label>
+									<input type="text" class="form-control" id="phone" placeholder="" ng-model="customer.phone">
+								</div>
+								<div class="form-group">
+									<label for="address_name">Address Name</label>
+									<input type="text" class="form-control" id="address_name" placeholder="" ng-model="customer.address_name">
+								</div>
+								<div class="form-group">
+									<label for="address_street">Address Street</label>
+									<input type="text" class="form-control" id="address_street" placeholder="" ng-model="customer.address_street">
+								</div>
+								<div class="form-group">
+									<label for="address_zip">Address ZIP</label>
+									<input type="text" class="form-control" id="address_zip" placeholder="" ng-model="customer.address_zip">
+								</div>
+								<div class="form-group">
+									<label for="address_city">Address City</label>
+									<input type="text" class="form-control" id="address_city" placeholder="" ng-model="customer.address_city">
+								</div>
+								<div class="form-group">
+									<label for="address_country">Address Country</label>
+									<input type="text" class="form-control" id="content" placeholder="" ng-model="customer.address_country">
+								</div>
+								<div class="form-group">
+									<label for="information">Information</label>
+									<input type="text" class="form-control" id="information" placeholder="" ng-model="customer.information">
+								</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Submit</button>
+								</div>
+						</form>
+                    </div>
+					
+					 <div class="col-lg-3 col-md-6" ng-if="status!=''">
+					 </div>
+					
+			</div>

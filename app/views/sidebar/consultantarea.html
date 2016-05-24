@@ -3,10 +3,26 @@
                <ul class="nav navbar-nav side-nav">
                     
                     <li>
-                        <a ui-sref='app.consultantarea.customer'> Meine Kunden</a>
+						<a href="javascript:;" data-toggle="collapse" data-target="#customer"> Customer <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="customer" class="collapse">
+                            <li>
+                                <a ui-sref='app.consultantarea.customer'>Customer List</a>
+                            </li>
+                            <li>
+                                <a ui-sref='app.consultantarea.customer_new'>New Customer</a>
+                            </li>
+                        </ul>
                     </li>
 					<li>
-                        <a ui-sref='app.consultantarea.notes'> Meine Notizen</a>
+					<a href="javascript:;" data-toggle="collapse" data-target="#notes"> Notes<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="notes" class="collapse">
+                            <li>
+                                <a ui-sref='app.consultantarea.notes'>Notes</a>
+                            </li>
+                            <li>
+                                <a ui-sref='app.consultantarea.notes_new'>New Note</a>
+                            </li>
+                        </ul>
                     </li>
 					<li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#scribble"> Scribble <i class="fa fa-fw fa-caret-down"></i></a>

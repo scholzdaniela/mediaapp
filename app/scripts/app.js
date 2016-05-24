@@ -18,7 +18,8 @@ angular
     'ngSanitize',
     'ngTouch',
 	'ui.router',
-	'pdf'
+	'pdf',
+	'ngDialog'
   ])
 
 
@@ -33,6 +34,11 @@ angular
 						controller  : 'LoginController'}
                     
                 },
+				data: {
+						container_name: '',
+						filename: '',
+						title: ''
+				},
 				module: 'public'
             })
 			
@@ -44,6 +50,11 @@ angular
 						controller  : 'RegisterController'}
                     
                 },
+				data: {
+						container_name: '',
+						filename: '',
+						title: ''
+				},
 				module: 'public'
             })
 			
@@ -53,6 +64,11 @@ angular
                 views: {
 					'': { templateUrl: 'views/home.html' } 
                 },
+				data: {
+						container_name: '',
+						filename: '',
+						title: ''
+				},
 				module: 'private',
 				abstract: true
             })
@@ -74,22 +90,27 @@ angular
 						controller  : 'SidebarController'
                     }
                 },
+				data: {
+						container_name: 'xxx',
+						filename: 'xxx',
+						title: 'xxx'
+				},
 				module: 'private'
             })
                     // route for general information - technical information
             .state('app.mediadata.d8eac39824813f17c0916243e67b873f', {
                 url:'/objects/documents/d8eac39824813f17c0916243e67b873f',
                 views: {
-                    '@content': {
+                    'content@app': {
                         templateUrl : 'views/content/pdf_view.html',
 						controller  : 'DocCtrl'
-                   },
+                   }
+                },
 				   data: {
 						container_name: 'another',
 						filename: 'Mediadaten-2016-Print_11',
 						title: 'Mediadaten'
-					} 
-                },
+					}, 
 				module: 'private'
             })
 			
@@ -97,16 +118,17 @@ angular
             .state('app.mediadata.1eb304bbcd9cafb145b0f601b24ca392', {
                 url:'/objects/documents/1eb304bbcd9cafb145b0f601b24ca392',
                 views: {
-                    'content': {
+                    'content@app': {
                         templateUrl : 'views/content/pdf_view.html',
 						controller  : 'DocCtrl'
-                   },
-				   data: {
+                   }
+				   
+                },
+				data: {
 						container_name: 'another',
 						filename: 'Mediadaten-2016-Print_11',
 						title: 'Mediadaten'
-					} 
-                },
+					}, 
 				module: 'private'
             })
 			
@@ -114,16 +136,17 @@ angular
             .state('app.mediadata.8ca1bf31aacc4ebcecf6c2e9c0c8c380', {
                 url:'/objects/documents/8ca1bf31aacc4ebcecf6c2e9c0c8c380',
                 views: {
-                    'content': {
+                    'content@app': {
                         templateUrl : 'views/content/pdf_view.html',
 						controller  : 'DocCtrl'
-                   },
-				   data: {
+                   }
+				   
+                },
+				data: {
 						container_name: 'another',
 						filename: 'Mediadaten-2016-Print_11',
 						title: 'Mediadaten'
-					} 
-                },
+					}, 
 				module: 'private'
             })
 			
@@ -139,8 +162,17 @@ angular
                     'content': {
                         templateUrl : 'views/content/calculator.html',
                         controller  : ''
+                     },
+					  'sidebar': {
+                        templateUrl : 'views/sidebar/calculator.html',
+						controller  : 'SidebarController'
                      }
                 },
+				data: {
+						container_name: '',
+						filename: '',
+						title: 'Daily Newspapers'
+				}, 
 				module: 'private'
             })
 			
@@ -158,13 +190,13 @@ angular
                      },
 					 'sidebar': {
                         templateUrl : 'views/sidebar/consultantarea.html'
-                     },
-					 data: {
+                     }
+                },
+				data: {
 						container_name: '',
 						filename: '',
 						title: 'Consultant Area'
-					} 
-                },
+					}, 
 				module: 'private'
             })
 			
@@ -173,17 +205,37 @@ angular
                 url:'/customer',
                 views: {
 					
-                    'content': {
+                    'content@app': {
                         templateUrl : '/views/content/list.html',
                         controller  : 'ListController'
-                     },
+                     }
 					 
-					 data: {
+					 
+                },
+				data: {
 						container_name: '',
 						filename: '',
 						title: 'Customers'
-					} 
+					}, 
+				module: 'private'
+            })
+			
+			.state('app.consultantarea.customer_new', {
+                url:'/customer_new',
+                views: {
+					
+                    'content@app': {
+                        templateUrl : '/views/content/new.html',
+                        controller  : 'AddController'
+                     }
+					 
+					 
                 },
+				data: {
+						container_name: '',
+						filename: '',
+						title: 'Customers'
+					}, 
 				module: 'private'
             })
 			
@@ -195,20 +247,21 @@ angular
                         templateUrl : 'views/header.html',
 						controller  : 'HeaderController'
                     },
-                    'content@': {
+                    'content@app': {
                         templateUrl : '/views/content/list.html',
                         controller  : 'ListController'
                      },
-					 'sidebar@': {
+					 'sidebar@app': {
                         templateUrl : 'views/sidebar/consultantarea.html'
 						
-                     },
-					 data: {
+                     }
+					 
+                },
+				data: {
 						container_name: '',
 						filename: '',
 						title: 'Scribbles'
-					} 
-                },
+					}, 
 				module: 'private'
             })
 			
@@ -220,20 +273,46 @@ angular
                         templateUrl : 'views/header.html',
 						controller  : 'HeaderController'
                     },
-                    'content': {
+                    'content@app': {
                         templateUrl : '/views/content/list.html',
                         controller  : 'ListController'
                      },
-					 'sidebar@': {
+					 'sidebar@app': {
                         templateUrl : 'views/sidebar/consultantarea.html'
 						
-                     },
-					 data: {
+                     }
+					
+                },
+				 data: {
 						container_name: '',
 						filename: '',
 						title: 'Notes'
-					} 
+					}, 
+				module: 'private'
+            })
+			
+			.state('app.consultantarea.notes_new', {
+                url:'/notes_new',
+                views: {
+					'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content@app': {
+                        templateUrl : '/views/content/new.html',
+                        controller  : 'AddController'
+                     },
+					 'sidebar@app': {
+                        templateUrl : 'views/sidebar/consultantarea.html'
+						
+                     }
+					
                 },
+				 data: {
+						container_name: '',
+						filename: '',
+						title: 'Notes'
+					}, 
 				module: 'private'
             })
 			
@@ -261,6 +340,7 @@ angular
         }
 		
 		$rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+
 			var loggedIn = $rootScope.globals.currentUser;
 			if (toState.module === 'private' && !loggedIn) {
 				// If logged out and transitioning to a logged in page:

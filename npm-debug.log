@@ -1,0 +1,138 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'ngDialog',
+1 verbose cli   '--save' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.3
+4 verbose install initial load of C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\package.json
+5 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\autoprefixer-core\package.json
+6 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\bower\package.json
+7 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt\package.json
+8 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-angular-templates\package.json
+9 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-concurrent\package.json
+10 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-clean\package.json
+11 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-concat\package.json
+12 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-connect\package.json
+13 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-copy\package.json
+14 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-cssmin\package.json
+15 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-htmlmin\package.json
+16 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-imagemin\package.json
+17 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-jshint\package.json
+18 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-uglify\package.json
+19 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-contrib-watch\package.json
+20 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-filerev\package.json
+21 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-google-cdn\package.json
+22 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-jscs\package.json
+23 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-newer\package.json
+24 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-ng-annotate\package.json
+25 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-postcss\package.json
+26 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-svgmin\package.json
+27 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-usemin\package.json
+28 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\grunt-wiredep\package.json
+29 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\jit-grunt\package.json
+30 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\jshint-stylish\package.json
+31 verbose installManyTop reading scoped package data from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\node_modules\time-grunt\package.json
+32 info package.json grunt@0.4.5 No license field.
+33 info package.json grunt-angular-templates@0.5.9 No license field.
+34 info package.json grunt-contrib-clean@0.6.0 No license field.
+35 info package.json grunt-contrib-connect@0.9.0 No license field.
+36 info package.json grunt-contrib-concat@0.5.1 No license field.
+37 info package.json grunt-contrib-cssmin@0.12.3 No license field.
+38 info package.json grunt-contrib-copy@0.7.0 No license field.
+39 info package.json grunt-filerev@2.3.1 license should be a valid SPDX license expression
+40 info package.json grunt-contrib-htmlmin@0.4.0 No license field.
+41 info package.json grunt-contrib-uglify@0.7.0 No license field.
+42 info package.json grunt-contrib-watch@0.6.1 No license field.
+43 info package.json grunt-google-cdn@0.4.3 license should be a valid SPDX license expression
+44 info package.json grunt-svgmin@2.0.1 No license field.
+45 info package.json grunt-wiredep@2.0.0 No license field.
+46 verbose readDependencies loading dependencies from C:\Users\scholzd2\workspace\Capstone\Website\MediaApp\package.json
+47 silly cache add args [ 'ngDialog', null ]
+48 verbose cache add spec ngDialog
+49 silly cache add parsed spec Result {
+49 silly cache add   raw: 'ngDialog',
+49 silly cache add   scope: null,
+49 silly cache add   name: 'ngDialog',
+49 silly cache add   rawSpec: '',
+49 silly cache add   spec: 'latest',
+49 silly cache add   type: 'tag' }
+50 silly addNamed ngDialog@latest
+51 verbose addNamed "latest" is being treated as a dist-tag for ngDialog
+52 info addNameTag [ 'ngDialog', 'latest' ]
+53 silly mapToRegistry name ngDialog
+54 silly mapToRegistry using default registry
+55 silly mapToRegistry registry https://registry.npmjs.org/
+56 silly mapToRegistry data Result {
+56 silly mapToRegistry   raw: 'ngDialog',
+56 silly mapToRegistry   scope: null,
+56 silly mapToRegistry   name: 'ngDialog',
+56 silly mapToRegistry   rawSpec: '',
+56 silly mapToRegistry   spec: 'latest',
+56 silly mapToRegistry   type: 'tag' }
+57 silly mapToRegistry uri https://registry.npmjs.org/ngDialog
+58 verbose addNameTag registry:https://registry.npmjs.org/ngDialog not in flight; fetching
+59 verbose request uri https://registry.npmjs.org/ngDialog
+60 verbose request no auth needed
+61 info attempt registry request try #1 at 17:17:42
+62 verbose request id b36dbbb90d18ccd3
+63 http request GET https://registry.npmjs.org/ngDialog
+64 http 404 https://registry.npmjs.org/ngDialog
+65 verbose headers { 'content-type': 'application/json',
+65 verbose headers   'cache-control': 'max-age=0',
+65 verbose headers   'content-length': '2',
+65 verbose headers   'accept-ranges': 'bytes',
+65 verbose headers   date: 'Tue, 24 May 2016 15:17:42 GMT',
+65 verbose headers   via: '1.1 varnish',
+65 verbose headers   age: '0',
+65 verbose headers   connection: 'keep-alive',
+65 verbose headers   'x-served-by': 'cache-fra1229-FRA',
+65 verbose headers   'x-cache': 'MISS',
+65 verbose headers   'x-cache-hits': '0',
+65 verbose headers   'x-timer': 'S1464103062.445749,VS0,VE422',
+65 verbose headers   vary: 'Accept-Encoding' }
+66 silly get cb [ 404,
+66 silly get   { 'content-type': 'application/json',
+66 silly get     'cache-control': 'max-age=0',
+66 silly get     'content-length': '2',
+66 silly get     'accept-ranges': 'bytes',
+66 silly get     date: 'Tue, 24 May 2016 15:17:42 GMT',
+66 silly get     via: '1.1 varnish',
+66 silly get     age: '0',
+66 silly get     connection: 'keep-alive',
+66 silly get     'x-served-by': 'cache-fra1229-FRA',
+66 silly get     'x-cache': 'MISS',
+66 silly get     'x-cache-hits': '0',
+66 silly get     'x-timer': 'S1464103062.445749,VS0,VE422',
+66 silly get     vary: 'Accept-Encoding' } ]
+67 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/ngDialog
+67 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+67 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:242:14)
+67 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+67 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:199:22)
+67 verbose stack     at emitTwo (events.js:87:13)
+67 verbose stack     at Request.emit (events.js:172:7)
+67 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1036:10)
+67 verbose stack     at emitOne (events.js:82:20)
+67 verbose stack     at Request.emit (events.js:169:7)
+67 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:963:12)
+68 verbose statusCode 404
+69 verbose pkgid ngDialog
+70 verbose cwd C:\Users\scholzd2\workspace\Capstone\Website\MediaApp
+71 error Windows_NT 10.0.10586
+72 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "ngDialog" "--save"
+73 error node v4.4.3
+74 error npm  v2.15.1
+75 error code E404
+76 error 404 Registry returned 404 for GET on https://registry.npmjs.org/ngDialog
+76 error 404
+76 error 404 'ngDialog' is not in the npm registry.
+76 error 404 Your package name is not valid, because
+76 error 404
+76 error 404  1. name can no longer contain capital letters
+76 error 404 It was specified as a dependency of 'mediaapp'
+76 error 404
+76 error 404 Note that you can also install from a
+76 error 404 tarball, folder, http url, or git url.
+77 verbose exit [ 1, true ]

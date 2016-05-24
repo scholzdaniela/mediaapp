@@ -31,12 +31,17 @@ angular.module('mediaAppApp')
 		}])
 		
 		
-		.controller('DocCtrl', ['$scope', 'pdfFactory', function($scope, pdfFactory) {
+		.controller('DocCtrl', ['$scope', '$rootScope', '$state', function($scope, $rootScope, $state) {
+			console.log("DocCtrl");
 			
-			var container_name =  $state.current.data.container_name;
-			var filename = $state.current.data.filename;
+			
+					var container_name =  $state.current.data.container_name;
+					var filename = $state.current.data.filename;
+					$scope.title = $state.current.data.title;
+					console.log(container_name, filename,$scope.title);
 
-			$scope.pdfUrl = 'http://mediaapp-restserver.eu-gb.mybluemix.net/api/' + 'containers/' + container_name + '/download/' + filename + '.pdf';
+					$scope.pdfUrl = 'http://mediaapp-restserver.eu-gb.mybluemix.net/api/' + 'containers/' + container_name + '/download/' + filename + '.pdf'+'?access_token='+ $rootScope.globals.currentUser.authToken;
+					console.log($scope.pdfUrl);
 		}])
 		
 		.controller('DocumentsController', ['$scope', 'productFactory', function($scope, productFactory) {
@@ -55,6 +60,46 @@ angular.module('mediaAppApp')
 				
 				getDocuments();
 		}])
+		
+		.controller('AddController', ['$scope', '$rootScope', '$state', 'customerFactory', 'notesFactory',  function($scope, $rootScope, $state, customerFactory, notesFactory) {
+				$scope.notes;
+				$scope.customers;
+				$scope.note = {};
+				$scope.customer = {name: '', contact_person: '', mobile: '', phone: '', address_name: '', address_street: '', address_zip: '', address_city: '', address_country: '', information:'', notes: []};
+				$scope.title = $state.current.data.title;
+				$scope.status = '';
+				
+				
+				$scope.addNote = function() {
+					//console.log($scope.note.name);
+					notesFactory.insertNote($scope.note.name, $scope.note.content)
+					.then(function (response) {
+						$scope.notes = response.data;
+						$state.go('app.consultantarea.notes');
+					}, function (error) {
+						$scope.status = 'Unable to load  data: ' + error.message;
+						console.log(error.message);
+					});
+				}
+				
+				
+				$scope.addCustomer = function(){
+					
+					customerFactory.insertCustomer($scope.customer)
+					.then(function (response) {
+						$scope.customers = response.data;
+						$scope.customer = {name: '', contact_person: '', mobile: '', phone: '', address_name: '', address_street: '', address_zip: '', address_city: '', address_country: '', information:'', notes: []};
+						$state.go('app.consultantarea.customer');
+					}, function (error) {
+						$scope.status = 'Unable to load data: ' + error.message;
+						console.log(error);
+					});
+				}
+				
+				
+				
+		}])
+		
 		
 		.controller('ProductController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
 			
@@ -130,51 +175,84 @@ angular.module('mediaAppApp')
 		}])
 		
 		//list controller
-		.controller('ListController', ['$scope', 'listFactory', '$state', 'AuthenticationService', function($scope, listFactory, $state, AuthenticationService) {
+		.controller('ListController', ['$scope', 'listFactory', '$state', 'AuthenticationService', '$rootScope', 'notesFactory', 'customerFactory', 'ngDialog', '$stateParams', function($scope, listFactory, $state, AuthenticationService, $rootScope, notesFactory, customerFactory, ngDialog, $stateParams) {
 				$scope.list;
-				var title =  $state.current.data.title;
-				var userId = AuthenticationService.getUserId;
-				$scope.title = title;
+				
+						var title =  $state.current.data.title;
+						var userId = $rootScope.globals.currentUser.userid;
+						$scope.title = title;
 				
 				
-				//get documents of product
-			function getList() {
-				listFactory.getList(title, userId)
-					.then(function (response) {
-						$scope.list = response.data;
-					}, function (error) {
-						$scope.status = 'Unable to load documents data: ' + error.message;
-					});
-			}
+						//get documents of product
+					function getList() {
+						listFactory.getList(title, userId)
+							.then(function (response) {
+								$scope.list = response.data;
+							}, function (error) {
+								$scope.status = 'Unable to load documents data: ' + error.message;
+							});
+					}
+						
+					getList();
+						
 				
-				getList();
+				$scope.deleteIt = function(itemId){
+					$scope.itemId = itemId;
+					console.log($scope.itemId);
+					ngDialog.open({ template: 'views/delete.html', scope: $scope, className: 'ngdialog-theme-default', controller:"ListController" });
+				
+				}
+				
+				$scope.deleteItem = function(){
+					if (title == 'Customers') {
+						console.log('customer delete' + $scope.itemId);
+								customerFactory.deleteCustomer($scope.itemId)
+									.then(function (response) {
+										ngDialog.close();
+										$scope.itemId = '';
+										//reload page
+									$state.transitionTo($state.current, $stateParams, {
+										reload: true,
+										inherit: false,
+										notify: true
+									});
+							}, function (error) {
+								$scope.status = 'Unable to load data: ' + error.message;
+								console.log(error);
+								ngDialog.close();
+								$scope.itemId = '';
+							});
+					}
+					if (title == 'Notes') {
+						console.log('notes delete' + $scope.itemId);
+								notesFactory.deleteNote($scope.itemId)
+									.then(function (response) {
+										ngDialog.close();
+										$scope.itemId = '';
+									//reload page
+									$state.transitionTo($state.current, $stateParams, {
+										reload: true,
+										inherit: false,
+										notify: true
+									});
+							}, function (error) {
+								$scope.status = 'Unable to load data: ' + error.message;
+								console.log(error);
+								ngDialog.close();
+								$scope.itemId = '';
+							});
+					}
+				}
+				
+				$scope.resetItemId = function(){
+					$scope.itemId = '';
+					ngDialog.close();
+				}
+				
+				
 		}])
 		
-		
-	/*	
-	.controller('RegisterController', RegisterController);
-	 
-		RegisterController.$inject = ['UserService', '$location', '$rootScope', 'FlashService'];
-		function RegisterController(UserService, $location, $rootScope, FlashService) {
-			var vm = this;
-	 
-			vm.register = register;
-	 
-			function register() {
-				vm.dataLoading = true;
-				UserService.Create(vm.user)
-					.then(function (response) {
-						if (response.success) {
-							FlashService.Success('Registration successful', true);
-							$location.path('/login');
-						} else {
-							FlashService.Error(response.message);
-							vm.dataLoading = false;
-						}
-					});
-			}
-		}
-	*/	
+
 	
 	.controller('LoginController', ['$scope', '$location', 'AuthenticationService', 'FlashService', '$state', 'UserService', function($scope, $location, AuthenticationService, FlashService, $state, UserService) {
 			
