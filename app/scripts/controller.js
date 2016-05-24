@@ -177,6 +177,8 @@ angular.module('mediaAppApp')
 		//list controller
 		.controller('ListController', ['$scope', 'listFactory', '$state', 'AuthenticationService', '$rootScope', 'notesFactory', 'customerFactory', 'ngDialog', '$stateParams', function($scope, listFactory, $state, AuthenticationService, $rootScope, notesFactory, customerFactory, ngDialog, $stateParams) {
 				$scope.list;
+				$scope.showDetail = false;
+				$scope.Details = {};
 				
 						var title =  $state.current.data.title;
 						var userId = $rootScope.globals.currentUser.userid;
@@ -247,6 +249,35 @@ angular.module('mediaAppApp')
 				$scope.resetItemId = function(){
 					$scope.itemId = '';
 					ngDialog.close();
+				}
+				
+				$scope.showDetail = function(itemId){
+					$scope.showDetail = true;
+					
+					if (title == 'Customers') {
+						console.log('customer get Item' + itemId);
+								customerFactory.getCustomer(itemId)
+									.then(function (response) {
+										
+										$scope.Details = resonse.data;
+									
+							}, function (error) {
+								$scope.status = 'Unable to load data: ' + error.message;
+								console.log(error);
+								$scope.itemId = '';
+							});
+					}
+					if (title == 'Notes') {
+						console.log('notes delete' + itemId);
+								notesFactory.getNote(itemId)
+									.then(function (response) {
+										$scope.Details = resonse.data;
+									
+							}, function (error) {
+								$scope.status = 'Unable to load data: ' + error.message;
+								console.log(error);
+							});
+					}
 				}
 				
 				
