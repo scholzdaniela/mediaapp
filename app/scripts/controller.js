@@ -101,6 +101,86 @@ angular.module('mediaAppApp')
 		}])
 		
 		
+		.controller('EditController', ['$scope', '$rootScope', '$state', 'customerFactory', 'notesFactory', '$stateParams',  function($scope, $rootScope, $state, customerFactory, notesFactory, $stateParams) {
+				$scope.notes;
+				$scope.customers;
+				$scope.note = {};
+				$scope.customer = {name: '', contact_person: '', mobile: '', phone: '', address_name: '', address_street: '', address_zip: '', address_city: '', address_country: '', information:'', notes: []};
+				$scope.title = $stateParams.title;
+				$scope.status = '';
+				$scope.itemId = $stateParams.itemId;;
+				
+				console.log('title: ' + $scope.title);
+				console.log('ItemId: ' + $scope.itemId);
+				
+				 
+				 function getItem() {
+					 console.log('functionstart');
+					if ($scope.title == 'Notes'){
+						
+							console.log('notes');
+							notesFactory.getNote($scope.itemId)
+							.then(function (response) {
+								$scope.note = response.data;
+								console.log($scope.note.name);
+							}, function (error) {
+								$scope.status = 'Unable to load  data: ' + error.message;
+								console.log(error.message);
+							});
+						
+					} 
+					else if ($scope.title == 'Customers'){
+						
+							console.log('customer');
+							customerFactory.getCustomer($scope.itemId)
+							.then(function (response) {
+								$scope.customer = response.data;
+								console.log($scope.customer.name);
+							}, function (error) {
+								$scope.status = 'Unable to load  data: ' + error.message;
+								console.log(error.message);
+							});
+						
+					}
+				}
+				getItem();
+				
+						
+						
+						
+				
+				
+				
+				$scope.editNote = function() {
+					//console.log($scope.note.name);
+					notesFactory.updateNote($scope.note.name, $scope.note.content, $scope.itemId)
+					.then(function (response) {
+						$scope.notes = response.data;
+						$state.go('app.consultantarea.notes');
+					}, function (error) {
+						$scope.status = 'Unable to load  data: ' + error.message;
+						console.log(error.message);
+					});
+				}
+				
+				
+				$scope.editCustomer = function(){
+					
+					customerFactory.updateCustomer($scope.customer, $scope.itemId)
+					.then(function (response) {
+						$scope.customers = response.data;
+						$state.go('app.consultantarea.customer');
+					}, function (error) {
+						$scope.status = 'Unable to load data: ' + error.message;
+						console.log(error);
+					});
+				}
+				
+				
+				
+		}])
+		
+		
 		.controller('ProductController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
 			
 			$scope.status;
@@ -259,7 +339,7 @@ angular.module('mediaAppApp')
 								customerFactory.getCustomer(itemId)
 									.then(function (response) {
 										
-										$scope.Details = resonse.data;
+										$scope.Details = response.data;
 									
 							}, function (error) {
 								$scope.status = 'Unable to load data: ' + error.message;
@@ -268,10 +348,10 @@ angular.module('mediaAppApp')
 							});
 					}
 					if (title == 'Notes') {
-						console.log('notes delete' + itemId);
+						console.log('notes getItem' + itemId);
 								notesFactory.getNote(itemId)
 									.then(function (response) {
-										$scope.Details = resonse.data;
+										$scope.Details = response.data;
 									
 							}, function (error) {
 								$scope.status = 'Unable to load data: ' + error.message;

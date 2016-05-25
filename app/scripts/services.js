@@ -53,8 +53,8 @@ angular.module('mediaAppApp')
 			return $http.post(baseURL + 'members/' + userId + '/note', {name: name, content: content});
 		};
 		
-		notesFactory.updateNote = function (name, content) {
-			return $http.put(baseURL + 'members/' + userId + '/note/' + obj.id, {name: name, content: content});
+		notesFactory.updateNote = function (name, content, id) {
+			return $http.put(baseURL + 'members/' + userId + '/note/' + id, {name: name, content: content});
 		};
 		
 		notesFactory.deleteNote = function (id) {
@@ -86,8 +86,8 @@ angular.module('mediaAppApp')
 			return $http.post(baseURL + 'members/' + userId + '/customer', obj);
 		};
 		
-		customerFactory.updateCustomer = function (obj) {
-			return $http.put(baseURL + 'members/' + userId + '/customer/' + obj.id, obj);
+		customerFactory.updateCustomer = function (obj, id) {
+			return $http.put(baseURL + 'members/' + userId + '/customer/' + id, obj);
 		};
 		
 		customerFactory.deleteCustomer = function (id) {

@@ -1,7 +1,13 @@
  <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <h1 class="page-header">
                             {{title}} <small>Overview</small>
+                        </h1>
+                    </div>
+					
+					<div class="col-lg-6" ng-if="showDetail == true">
+                        <h1 class="page-header">
+                          <small>Details</small>
                         </h1>
                     </div>
                 </div>
@@ -11,43 +17,84 @@
 					
                     <div class="col-lg-3 col-md-6">
                         <ul class="list-group">
-						  <li class="list-group-item" ng-repeat="item in list"><a  ng-click="showDetail(item.id)"'>{{item.name}}</a>
+						  <li class="list-group-item" ng-repeat="item in list"><a  ng-click="showDetail(item.id)">{{item.name}}</a>
 								<button type="button" class="btn btn-danger btn-xs pull-right" ng-click="deleteIt(item.id)" >
 									<span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
 								</button>
-								<button type="button" class="btn btn-default btn-xs pull-right" ng-click="edit(item.id)" >
+								<button type="button" class="btn btn-default btn-xs pull-right" ui-sref="app.consultantarea.editItem({title: title, itemId: item.id})" >
 									<span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>
 								</button>
 							</li>
 						</ul>
                     </div>
 					<!--detail view -->
-					<div class="col-lg-9 col-md-6">
-						<div class="col-lg-12">
-							<h1 class="page-header">
-								{{title}} <small>Details</small>
-							</h1>
-						</div>
+					<div class="col-lg-6 col-md-6" ng-if="showDetail == true">
 						
-						<div ng-if="showDetail == true && title == 'Customer'">
-							<table class="table">
+						
+						<div class="row">
+							<div ng-if="title == 'Customers'">
+								<table class="table table-condensed">
+									
+									<tr>
+										  <td><strong>Name:</strong></td>
+										  <td>{{Details.name}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Contact Person:</strong></td>
+										  <td>{{Details.contact_person}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Mobile:</strong></td>
+										  <td>{{Details.mobile}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Phone:</strong></td>
+										  <td>{{Details.phone}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Address Name:</strong></td>
+										  <td>{{Details.address_name}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Address Street:</strong></td>
+										  <td>{{Details.addresss_street}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Address ZIP:</strong></td>
+										  <td>{{Details.address_zip}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Addresss City:</strong></td>
+										  <td>{{Details.address_city}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Address Country:</strong></td>
+										  <td>{{Details.address_country}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Information:</strong></td>
+										  <td>{{Details.information}}</td>
+									</tr>
 								
-							</table>
+								</table>
+							</div>
+							
+							<div ng-if="title == 'Notes'">
+								<table class="table table-condensed">
+									<tr>
+										  <td><strong>Name:</strong></td>
+										  <td>{{Details.name}}</td>
+									</tr>
+									<tr>
+										  <td><strong>Content:</strong></td>
+										  <td>{{Details.content}}</td>
+									</tr>
+								</table>
+							</div>
 						</div>
-						
-						<div ng-if="showDetail == true && title == 'Notes'">
-							<table class="table">
-								<tr>
-									  <td>Name:</td>
-									  <td>{{Details.name}}</td>
-								</tr>
-								<tr>
-									  <td>Content:</td>
-									  <td>{{Details.content}}</td>
-								</tr>
-							</table>
+						<div class="col-lg-3 col-md-0" ng-if="showDetail == true">	
 						</div>
-						
 					</div>
 					
+			
 			</div>

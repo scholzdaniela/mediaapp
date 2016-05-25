@@ -316,12 +316,41 @@ angular
 				module: 'private'
             })
 			
+			.state('app.consultantarea.editItem', {
+                url:'/editItem',
+                views: {
+					'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content@app': {
+                        templateUrl : '/views/content/edit.html',
+                        controller  : 'EditController'
+                     },
+					 'sidebar@app': {
+                        templateUrl : 'views/sidebar/consultantarea.html'
+						
+                     }
+					
+                },
+				 data: {
+						container_name: '',
+						filename: '',
+						title: ''
+				}, 
+				params: {
+					title: null,
+					itemId: null
+				},
+				module: 'private'
+            })
+			
 			  // route for the consultant pages
-            .state('mediadata.consultant.consultant_newscribble', {
+            .state('app.consultantarea.consultant_newscribble', {
                 url:'/newscribble',
 				
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl : 'views/content/newscribble.html',
                         controller  : ''
                      }
