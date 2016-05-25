@@ -102,6 +102,37 @@ angular.module('mediaAppApp')
 		}])
 		
 		
+		.factory('scribbleFactory', ['$http', 'baseURL', '$rootScope', function($http, baseURL, $rootScope) {
+		var scribbleFactory = {};
+		
+		var username = $rootScope.globals.currentUser.username;
+		
+		scribbleFactory.uploadScribble = function (File) {
+			console.log(baseURL + 'containers/' + username + '/upload');
+			return $http.post(baseURL + 'containers/' + username + '/upload', File, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}}); 
+		};
+		
+		scribbleFactory.getScribbles = function () {
+			return $http.get(baseURL + 'containers/' + username + '/files');
+		};
+		
+		scribbleFactory.getDownloadURL = function (filename) {
+			return baseURL + 'containers/' + username + '/download/' + filename + '?access_token=' + $rootScope.globals.currentUser.authToken;
+		};
+		
+		scribbleFactory.deleteScribble = function (filename) {
+			return $http.delete(baseURL + 'containers/' + username + '/files/' + filename);
+		};
+		
+		
+		
+		return scribbleFactory;
+
+		}])
+		
+		
 		.factory('pdfFactory', ['$http', 'baseURL', '$state', '$rootScope', function($http, baseURL, $state, $rootScope) {
 			var pdfFactory = {};
 			

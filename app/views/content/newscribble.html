@@ -12,14 +12,17 @@
 				<div class="row">
 				 <div class="col-lg-12">
 					<div id="zwibbler" style="margin-left:10px;margin-right:10px;border:2px solid red;width:100%;height:600px;"></div>
-						<button class="btn btn-primary" type="button" onclick="onSave()" value="Save">Speichern</button>
+						<button class="btn btn-primary" type="button" ng-click="save()" value="Save">Save as PNG</button>
 
-						<button id="loadButton" class="btn btn-primary" type="button" onclick="onLoad()" disabled="disabled" value="Load">Laden</button>
+						<!--<button id="loadButton" class="btn btn-primary" type="button" onclick="onLoad()" disabled="disabled" value="Load">Laden</button>-->
 
-						<button class="btn btn-primary" type="button" onclick="onImage()" value="Open as image">Open as image</button>
-						<button class="btn btn-primary" type="button" onclick="zwibbler.onResize()" value="Open as image">Open as image</button>
-						<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-						<script src="http://zwibbler.com/zwibbler-demo.js""></script>
+						<button class="btn btn-primary" type="button" ng-click="onImage()" value="Open as image">Open as image</button>
+						<!--<button class="btn btn-primary" type="button" onclick="zwibbler.onResize()" value="Open as image">Open as image</button>-->
+						<p class="text-success" ng-if="saved == true">Saved as {{savedas}}</p>
+						<p  ng-if="saved == false">{{savedas}}</p>
+						<!--<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+						<script src="http://zwibbler.com/zwibbler-demo.js""></script>-->
+						<!--
 						<script type="text/javascript">
 							var zwibbler = Zwibbler.create("zwibbler", {
 								showPropertyPanel: true
@@ -27,8 +30,9 @@
 
 							var saved = null;
 							function onSave() {
-								saved = zwibbler.save("zwibbler3");
-								$("#loadButton").removeAttr("disabled");
+								//saved = zwibbler.save("zwibbler3");
+								var dataUrl = zwibbler.save("png");
+								
 							}
 
 							function onLoad() {
@@ -39,7 +43,15 @@
 								var dataUrl = zwibbler.save("png");
 								window.open(dataUrl, "other");
 							}
+							
+							
+
+							
+
+
+							
 						</script>
+						-->
 				 </div>
 				</div>
 				<!-- /.row -->

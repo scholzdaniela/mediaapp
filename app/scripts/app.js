@@ -248,8 +248,8 @@ angular
 						controller  : 'HeaderController'
                     },
                     'content@app': {
-                        templateUrl : '/views/content/list.html',
-                        controller  : 'ListController'
+                        templateUrl : '/views/content/scribble.html',
+                        controller  : 'ScribbleListController'
                      },
 					 'sidebar@app': {
                         templateUrl : 'views/sidebar/consultantarea.html'
@@ -352,9 +352,14 @@ angular
                 views: {
                     'content@app': {
                         templateUrl : 'views/content/newscribble.html',
-                        controller  : ''
+                        controller  : 'ScribbleController'
                      }
                 },
+				data: {
+						container_name: '',
+						filename: '',
+						title: 'New Scribble'
+				}, 
 				module: 'private'
             });
             $urlRouterProvider.otherwise('/login');

@@ -1,0 +1,26 @@
+
+  <div class="ngdialog-message">
+   
+      
+        
+        <div class="modal-body">
+          <p>Please choose a name?</p>
+        </div>
+		<form name="form" ng-submit="onSave(filename)" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.filename.$dirty && form.filename.$error.required }">
+            <label for="filename" class="login-form">Filename</label>
+            <input type="text" name="filename" id="filename" class="form-control" ng-model="filename" required />
+            <span ng-show="form.filename.$dirty && form.filename.$error.required" class="help-block">Filename is required</span>
+        </div>
+        
+        <div class="form-actions">
+         <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-default" ng-click="ngDialog.close()">Close</button>
+        </div>
+    </form>
+       
+      
+   
+  </div>
+
+

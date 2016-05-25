@@ -180,6 +180,95 @@ angular.module('mediaAppApp')
 				
 		}])
 		
+		.controller('ScribbleController', ['$scope', '$rootScope', '$state', '$stateParams', 'scribbleFactory', 'ngDialog', function($scope, $rootScope, $state, $stateParams, scribbleFactory, ngDialog) {
+				
+				$scope.zwibbler;
+				 
+				 function startZwibbler() {
+					$scope.zwibbler = Zwibbler.create("zwibbler", {
+								showPropertyPanel: true
+							});
+				}
+				startZwibbler();
+				
+					
+				//to do filename
+				$scope.saved = false;
+				$scope.savedas ='';
+				
+				
+				$scope.onSave = function(filename) {
+					
+					var dataUrl = $scope.zwibbler.save("png");
+					//var dataUrl = $scope.zwibbler.toDataURL('image/png', 0.5);
+					
+					var data = dataUrl.slice(22);
+					console.log(data);
+					
+					
+					//var blob = dataURItoBlob(dataUrl);
+					var blob = new Blob([data], {type: 'image/png'});
+					var file = new File([blob], filename +'.png');
+					
+					 var fd = new FormData();
+					fd.append('file', file);
+        
+					scribbleFactory.uploadScribble(fd)
+					.then(function (response) {
+						ngDialog.close();
+						$scope.saved = true,
+						$scope.savedas = filename + '.png';
+				}, function (error) {
+					
+					$scope.savedas = 'Unable to uploads data: ' + error.message;
+				});
+				}
+
+				
+				function dataURItoBlob(dataURI) {
+					'use strict'
+					var byteString, 
+						mimestring 
+
+					if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
+						byteString = atob(dataURI.split(',')[1])
+					} else {
+						byteString = decodeURI(dataURI.split(',')[1])
+					}
+
+					mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+					var content = new Array();
+					for (var i = 0; i < byteString.length; i++) {
+						content[i] = byteString.charCodeAt(i)
+					}
+
+					return new Blob([new Uint8Array(content)], {type: mimestring});
+				}
+				
+							
+				$scope.onImage = function() {
+					var dataUrl = $scope.zwibbler.save("png");
+					window.open(dataUrl, "other");
+				}
+		
+						
+				$scope.save = function(){
+					ngDialog.open({ template: 'views/save.html', scope: $scope, className: 'ngdialog-theme-default', controller:"ScribbleController" });
+				
+				}		
+				
+				
+				
+				
+				
+				
+				
+		}])
+		
+		
+		
+		
 		
 		.controller('ProductController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
 			
@@ -363,6 +452,80 @@ angular.module('mediaAppApp')
 				
 		}])
 		
+		
+		//list controller
+		.controller('ScribbleListController', ['$scope', 'listFactory', '$state', '$rootScope', 'scribbleFactory', 'ngDialog', '$stateParams', function($scope, listFactory, $state, $rootScope, scribbleFactory, ngDialog, $stateParams) {
+				$scope.scribbles;
+				$scope.scribblename;
+				$scope.showDetail = false
+				$scope.imageurl ='';
+				
+						var title =  $state.current.data.title;
+						var username = $rootScope.globals.currentUser.username;
+						$scope.title = title;
+				
+				
+						//get documents of product
+					function getScribbles() {
+						scribbleFactory.getScribbles()
+							.then(function (response) {
+								$scope.scribbles = response.data;
+							}, function (error) {
+								$scope.status = 'Unable to load data: ' + error.message;
+							});
+					}
+						
+					getScribbles();
+						
+				
+				$scope.deleteIt = function(scribblename){
+					$scope.scribblename = scribblename;
+					console.log($scope.scribblename);
+					ngDialog.open({ template: 'views/deleteScribble.html', scope: $scope, className: 'ngdialog-theme-default', controller:"ScribbleListController" });
+				
+				}
+				
+				$scope.deleteScribble = function(){
+						
+						console.log('scribbledelete' + $scope.scribblename);
+								scribbleFactory.deleteScribble($scope.scribblename)
+									.then(function (response) {
+										ngDialog.close();
+										$scope.scribblename = '';
+										//reload page
+									$state.transitionTo($state.current, $stateParams, {
+										reload: true,
+										inherit: false,
+										notify: true
+									});
+							}, function (error) {
+								$scope.status = 'Unable to delete data: ' + error.message;
+								console.log(error);
+								ngDialog.close();
+								$scope.scribbelname= '';
+							});
+					
+					
+				}
+				
+				$scope.resetScribbelName = function(){
+					$scope.scribblename = '';
+					ngDialog.close();
+				}
+				
+				$scope.showDetail = function(scribblename){
+					
+					
+					
+						console.log('scribble get imageurl' + scribblename);
+						$scope.imageurl =scribbleFactory.getDownloadURL(scribblename)
+						$scope.showDetail = true;			
+					
+					
+				}
+				
+				
+		}])
 
 	
 	.controller('LoginController', ['$scope', '$location', 'AuthenticationService', 'FlashService', '$state', 'UserService', function($scope, $location, AuthenticationService, FlashService, $state, UserService) {
