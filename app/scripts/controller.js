@@ -323,6 +323,154 @@ angular.module('mediaAppApp')
 			
 		}])
 		
+		.controller('CalculatorController',  ['$scope', 'productFactory', '$state', '$stateParams', 'calcFactory', function ($scope, productFactory, $state, $stateParams, calcFactory) {
+			
+			$scope.status;
+			$scope.calcproducts;
+			$scope.title = $state.current.data.title;
+			$scope.publicationslength = 0;
+			$scope.calcproduct = {};
+			
+			$scope.publications = {};
+			$scope.types = {};
+			$scope.colors = {};
+			$scope.pricetypes = {};
+			$scope.total= 0;
+			
+
+			
+			 
+			 function getProducts() {
+				productFactory.getProducts()
+					.then(function (response) {
+					$scope.calcproducts = response.data;
+				}, function (error) {
+					$scope.status = 'Unable to load products data: ' + error.message;
+				});
+			}
+			getProducts();
+			
+			
+			$scope.getProduct = function () {
+				productFactory.getProduct($stateParams.id)
+					.then(function (response) {
+						$scope.calcproduct = response.data;
+					}, function (error) {
+						$scope.status = 'Unable to load products data: ' + error.message;
+					});
+			};
+			
+			function getPublications() {
+				var id = $state.current.data.id;
+				productFactory.getPublications(id)
+					.then(function (response) {
+						console.log(response);
+					$scope.publications = response.data;
+					$scope.publicationslength = response.data.length;
+					console.log($scope.publicationslength);
+				}, function (error) {
+					$scope.status = 'Unable to load products data: ' + error.message;
+				});
+			}
+			getPublications();
+			
+			function getTypes() {
+				calcFactory.getTypes()
+					.then(function (response) {
+					$scope.types = response.data;
+				}, function (error) {
+					$scope.status = 'Unable to load products data: ' + error.message;
+				});
+			}
+			getTypes();
+			
+			function getColors() {
+				calcFactory.getColors()
+					.then(function (response) {
+					$scope.colors = response.data;
+				}, function (error) {
+					$scope.status = 'Unable to load products data: ' + error.message;
+				});
+			}
+			getColors();
+			
+			function getPricetypes() {
+				calcFactory.getPricetypes()
+					.then(function (response) {
+					$scope.pricetypes = response.data;
+				}, function (error) {
+					$scope.status = 'Unable to load products data: ' + error.message;
+				});
+			}
+			getPricetypes();
+			
+			$scope.calculate = function(calc) {
+				var productId = $state.current.data.id;
+				var advertisementtype = calc.type;
+				var pricetypeId = calc.pricetype;
+				var colorId = calc.color;
+				var height = calc.height;
+				var widthsp = calc.width;
+				var width = 1;
+				var days = calc.days;
+				var discount = calc.discount;
+				
+				switch(widthsp) {
+					case 1:
+						width = 1;
+						break;
+					case 2:
+						width = 2;
+						break;
+					case 3:
+						width = 3;
+					break;
+					case 4:
+						width = 4;
+					break;
+					case 5:
+						width = 5;
+					break;
+					case 6:
+						width = 6;
+					break;
+					case 7:
+						width = 7;
+					break;
+					default:
+						
+				} 
+				var subtotal = 0;
+				var mm = 0;
+				if (pricetypeId == 'f188a0701564c5f84cfd02deead82653'){
+					mm = width * height; 
+				} else {
+					mm = 8193.75; // hard coded value for second type ... has to be dynamic
+				}
+				
+				for (i = 1; i <= publicationslength; i++){
+					if (calc.publication == false){
+						continue;
+					}
+					publicationId = calc.publication.id(i); //does not work
+					console.log(publicationId);
+					calcFactory.getPrice(productId, publicationId, colorId, pricetypeId, advertisementtypeId)
+							.then(function (response) {
+								console.log(response.data);
+								price = parseInt(response.data);
+								subtotal = subtotal + ((((price * mm)/ 100)* days) ); 
+						}, function (error) {
+							$scope.status = 'Unable to load products data: ' + error.message;
+						});
+					
+				};
+				var total = subtotal *(100-discount)
+				$scope.total= total;
+			}
+			
+			
+		}])
+		
 	.controller('RegisterController', ['$scope', 'UserService', '$location', '$rootScope', 'FlashService', '$state', function($scope, UserService, $location, $rootScope, FlashService, $state) {
 			
 	 
@@ -552,10 +700,28 @@ angular.module('mediaAppApp')
 					if (response.success) {
 						console.log("success");
 						var authToken = response.data.id;
-						var userid =response.data.userId;
+						var userid = response.data.userId;
+						var firstname = '';
+						var lastname = '';
+						var email = '';
+						AuthenticationService.setAuthHeader(authToken);
+						UserService.GetById(userid).then(function (response) {
+							console.log(response);
+									email = response.email;
+									firstname = response.firstname;
+									lastname = response.lastname;
+									console.log(firstname, lastname, email);	
+									AuthenticationService.SetCredentials($scope.loginData.username, $scope.loginData.password, userid, authToken, firstname, lastname, email);
+									$state.go('app.mediadata');
+							}, function (error) {
+								console.log(error);
+								AuthenticationService.SetCredentials($scope.loginData.username, $scope.loginData.password, userid, authToken, firstname, lastname, email);
+								$state.go('app.mediadata');
+							});
+						
 						console.log(authToken + '' + userid);
-						AuthenticationService.SetCredentials($scope.loginData.username, $scope.loginData.password, userid, authToken);
-						$state.go('app.mediadata');
+						//AuthenticationService.SetCredentials($scope.loginData.username, $scope.loginData.password, userid, authToken, firstname, lastname, email);
+						//$state.go('app.mediadata');
 					} else {
 						console.log("not a success" + response.message);
 						FlashService.Error(response.message);
@@ -570,11 +736,13 @@ angular.module('mediaAppApp')
 
 			$scope.loggedIn = false;
 			$scope.username = '';
-			$scope.isAdmin = true;
+			$scope.isAdmin = false;
 			
 			if(AuthenticationService.isAuthenticated()) {
 				$scope.loggedIn = true;
 				$scope.username = AuthenticationService.getUsername();
+				//$scope.isAdmin = AuthenticationService.getStatus();
+				// uncomment if api request for admin works
 
 			}
 
@@ -584,49 +752,66 @@ angular.module('mediaAppApp')
 				$scope.username = '';
 				$state.go('login');
 			};
+
+	}])
+	
+	.controller('ProfileController', ['$scope', '$state', '$rootScope', 'AuthenticationService', 'UserService', function ($scope, $state, $rootScope, AuthenticationService, UserService) {
+
+			$scope.user = {id: '', username: '', firstname: '', lastname: '', email: ''};
+			$scope.username = '';
+			$scope.firstname = '';
+			$scope.lastname = '';
+			$scope.email = '';
+			$scope.savedstatus = '';
 			
+				// get userdata
+					function getUserdata() {
+						$scope.username = $rootScope.globals.currentUser.username;
+						$scope.firstname = $rootScope.globals.currentUser.firstname;
+						$scope.lastname = $rootScope.globals.currentUser.lastname;
+						$scope.userid = $rootScope.globals.currentUser.userid;
+						$scope.email = $rootScope.globals.currentUser.email;
+						
+						$scope.user = {id: $scope.userid, username: $scope.username, firstname: $scope.firstname, lastname: $scope.lastname, email: $scope.email};
+						
+					}
+						
+					getUserdata();
 			
+			//update user data
+			$scope.editUser = function(user) {
+				UserService.Update(user)
+							.then(function (response) {
+									console.log(response);
+									$scope.savedstatus = 'Saved data!';
+									AuthenticationService.RefreshCredentials(response.username, response.firstname, response.lastname, response.email);
+								
+							}, function (error) {
+								console.log(error);
+								$scope.savedstatus = 'An error occured while saving your data!';
+							});
+			}
+			
+			$scope.resetPassword = function(user) {
+				AuthenticationService.resetPassword()
+							.then(function (response) {
+								if (response.success){
+									$scope.savedstatus = 'Mail send!';
+								} else{
+									$scope.savedstatus = 'An error occured while sending the mail!';
+								}
+								
+							}, function (error) {
+								console.log(error);
+								$scope.savedstatus = 'An error occured while sending the mail!';
+							});
+			}
 			
 			
 
-			/*
-			$scope.stateis = function(curstate) {
-			   return $state.is(curstate);  
-			};
-			*/
-    
 	}])
 	
-	/*
-	.controller('LoginController', LoginController);
- 
-		LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-		function LoginController($location, AuthenticationService, FlashService) {
-			var vm = this;
-	 
-			vm.login = login;
-	 
-			(function initController() {
-				// reset login status
-				AuthenticationService.ClearCredentials();
-			})();
-	 
-			function login() {
-				vm.dataLoading = true;
-				AuthenticationService.Login(vm.username, vm.password, function (response) {
-					if (response.success) {
-						AuthenticationService.SetCredentials(vm.username, vm.password);
-						$location.path('/');
-					} else {
-						FlashService.Error(response.message);
-						vm.dataLoading = false;
-					}
-				});
-			};
-		}
- 		
-	*/	
-		
+
 		
 ;
 		

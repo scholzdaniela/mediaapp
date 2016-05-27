@@ -29,8 +29,104 @@ angular.module('mediaAppApp')
 			return $http.get(baseURL + 'products' + '/' + id + '/document');
 		};
 		
+		productFactory.getPublications = function (id) {
+			return $http.get(baseURL + 'products' + '/' + id + '/publication');
+		};
+		
 	
 		return productFactory;
+
+		}])
+		
+		
+		.factory('calcFactory', ['$http', 'baseURL', function($http, baseURL) {
+		var calcFactory = {};
+		//types
+		calcFactory.getTypes = function () {
+			return $http.get(baseURL + 'advertisementtypes');
+		};
+		
+		calcFactory.getType = function (id) {
+			return $http.get(baseURL + 'advertisementtypes' + '/' + id);
+		};
+		
+		calcFactory.insertType = function (obj) {
+			return $http.post(baseURL + 'advertisementtypes', obj);
+		};
+		
+		calcFactory.updateType = function (obj) {
+			return $http.put(baseURL + 'advertisementtypes' + '/' + obj.id, obj);
+		};
+		
+		calcFactory.deleteType = function (id) {
+			return $http.delete(baseURL + 'advertisementtypes' + '/' + id);
+		};
+		
+		//color
+		calcFactory.getColors = function () {
+			return $http.get(baseURL + 'colors');
+		};
+		
+		calcFactory.getColor = function (id) {
+			return $http.get(baseURL + 'colors' + '/' + id);
+		};
+		
+		calcFactory.insertColor = function (obj) {
+			return $http.post(baseURL + 'colors', obj);
+		};
+		
+		calcFactory.updateColor = function (obj) {
+			return $http.put(baseURL + 'colors' + '/' + obj.id, obj);
+		};
+		
+		calcFactory.deleteColor = function (id) {
+			return $http.delete(baseURL + 'colors' + '/' + id);
+		};
+		
+		//pricetypes
+		calcFactory.getPricetypes = function () {
+			return $http.get(baseURL + 'pricetypes');
+		};
+		
+		calcFactory.getPricetype = function (id) {
+			return $http.get(baseURL + 'pricetypes' + '/' + id);
+		};
+		
+		calcFactory.insertPricetype = function (obj) {
+			return $http.post(baseURL + 'pricetypes', obj);
+		};
+		
+		calcFactory.updatePricetype = function (obj) {
+			return $http.put(baseURL + 'pricetypes' + '/' + obj.id, obj);
+		};
+		
+		calcFactory.deletePricetype = function (id) {
+			return $http.delete(baseURL + 'pricetypes' + '/' + id);
+		};
+		
+		//price
+		calcFactory.getPrice = function (productId, publicationId, colorId, pricetypeId, advertisementtypeId) {
+			return $http.get(baseURL + 'prices/' + '?filter[where][AND][productId]=' + productId + '&filter[where][AND][publicationId]=' + publicationId + '&filter[where][AND][pricetypeId]=' + pricetypeId + '&filter[where][AND][colorId]=' + colorId + '&filter[where][AND][advertisementtypeId]=' + advertisementtypeId);
+		};
+		
+		
+		//todo
+		calcFactory.insertPrice = function (obj) {
+			return $http.post(baseURL + 'pricetypes', obj);
+		};
+		
+		calcFactory.updatePrice = function (obj) {
+			return $http.put(baseURL + 'pricetypes' + '/' + obj.id, obj);
+		};
+		
+		calcFactory.deletePrice = function (id) {
+			return $http.delete(baseURL + 'pricetypes' + '/' + id);
+		};
+		
+		
+		
+	
+		return calcFactory;
 
 		}])
 		
@@ -163,6 +259,11 @@ angular.module('mediaAppApp')
 			service.getUsername = getUsername;
 			service.isAuthenticated = isAuthenticated;
 			service.getUserId = getUserId;
+			service.getStatus = getStatus;
+			service.decode = decode;
+			service.setAuthHeader = setAuthHeader;
+			service.resetPassword = resetPassword;
+			service.RefreshCredentials = RefreshCredentials;
 			
 			function Login(username, password, callback) {
  
@@ -198,7 +299,7 @@ angular.module('mediaAppApp')
  
         }
  
-        function SetCredentials(username, password, userid, authToken) {
+        function SetCredentials(username, password, userid, authToken, firstname, lastname, email) {
             var authdata = Base64.encode(username + ':' + password);
 			
 			
@@ -207,11 +308,38 @@ angular.module('mediaAppApp')
                     username: username,
                     authdata: authdata,
 					userid: userid,
-					authToken: authToken
+					authToken: authToken,
+					firstname: firstname,
+					lastname: lastname,
+					email: email,
+					admin: false //to do: read from api
                 }
             };
  
             $http.defaults.headers.common['x-access-token'] = authToken; // jshint ignore:line
+            $cookieStore.put('globals', $rootScope.globals);
+        }
+		
+		function RefreshCredentials(username, firstname, lastname, email) {
+            var authdata = $rootScope.globals.currentUser.authdata;
+			var userid = $rootScope.globals.currentUser.userid;
+			var authToken = $rootScope.globals.currentUser.authToken;
+			
+			
+			
+            $rootScope.globals = {
+                currentUser: {
+                    username: username,
+                    authdata: authdata,
+					userid: userid,
+					authToken: authToken,
+					firstname: firstname,
+					lastname: lastname,
+					email: email,
+					admin: false //to do: read from api
+                }
+            };
+
             $cookieStore.put('globals', $rootScope.globals);
         }
  
@@ -219,6 +347,10 @@ angular.module('mediaAppApp')
             $rootScope.globals = {};
             $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
+        }
+		
+		function setAuthHeader(authToken) {
+            $http.defaults.headers.common['x-access-token'] = authToken; // jshint ignore:line
         }
 		
 		
@@ -247,7 +379,9 @@ angular.module('mediaAppApp')
 			return $rootScope.globals.currentUser.userid;
 		}
 		
-	
+		function getStatus() {
+			return $rootScope.globals.currentUser.admin;
+		}
 		
 		function isAuthenticated(){
 			if ($rootScope.globals == {}) {
@@ -255,6 +389,21 @@ angular.module('mediaAppApp')
 			} else {
 				return true;
 			}
+		}
+		
+		function decode(string) {
+			return Base64.decode(string);
+		}
+		
+		function resetPassword(){
+			$http.post(baseURL + 'members/reset')
+                .then(function successCallback(response) {
+				//todo
+				//also todo on server side
+				
+			  }, function errorCallback(response) {
+				
+			  });
 		}
 		
 		
@@ -350,7 +499,7 @@ angular.module('mediaAppApp')
 		}])
 		
 		
-	.factory('UserService', ['$http', 'baseURL', function($http, baseURL) {
+	.factory('UserService', ['$http', 'baseURL', '$rootScope', function($http, baseURL, $rootScope) {
 		var service = {};
  
         service.GetAll = GetAll;
@@ -368,6 +517,7 @@ angular.module('mediaAppApp')
         }
  
         function GetById(id) {
+			console.log($http.get(baseURL + 'members/' + id));
             return $http.get(baseURL + 'members/' + id).then(handleSuccess, handleError('Error getting user by id'));
         }
  

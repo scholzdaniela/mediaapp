@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Calculator <small>Daily Newspapers - Advertisements</small>
+                            Calculator <small>{{title}} - Advertisements</small>
                         </h1> 
                     </div>
                 </div>
@@ -12,55 +12,42 @@
 
                 <div class="row">
 					<div class="col-lg-8 col-md-12">
-						<form name="daily_adv_Form">
+						<form name="daily_adv_Form" ng-submit="calculate(calc)">
 							  <div class="form-group">
 								<label for="edition">Edition</label>
-									<div class="checkbox">
+									<div class="checkbox" ng-repeat="publication in publications">
 									<label>
-									  <input type="checkbox" id="edition1" value="edition1"> edition 1
+									  <input type="checkbox" id="edition1" value="{{publication.id}}" ng-model="calc.publication.id"> {{publication.name}}
 									</label>
 									</div>
-									<div class="checkbox">
-									<label>
-									  <input type="checkbox" id="edition2" value="edition2"> edition 2
-									</label>
-									</div>
-									<div class="checkbox">
-									<label>
-									  <input type="checkbox" id="edition3" value="edition3"> edition 3
-									</label>
-									</div>
-									<div class="checkbox">
-									<label>
-									  <input type="checkbox" id="edition4" value="edition4"> edition 4
-									</label>
-									</div>
+									
 							  </div>
 							  
 							  <div class="form-group">
 								<label for="special_format">Special Format</label>
 									<select class="form-control" id="special_format">
-										  <option>none</option>
-										  <option>Griffecke</option>
-										  <option>Titellopf</option>
-										  <option>Sponsoring Anzeige 7sp/25mm</option>
-										  <option>Sponsoring Anzeige 3sp/20mm</option>
-										  <option>Anzeigenstrecke</option>
+										  <option ng-repeat="type in types" value="{{type.id}}" ng-model="calc.type">{{type.name}}</option>
+										  
 									</select>
 							  </div>
 							  
 							  <div class="form-group">
-								<label for="width">Width</label></br>
+								<label for="width">Width in columns</label></br>
 								<div class="row">
+								
 								<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-								<input type="text" class="form-control" id="width" placeholder="width">
-								</div>
-								<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-									<select class="form-control" id="width_unit">
-										  <option>columns</option>
-										  <option>mm</option>
+								<select class="form-control" id="width">
+										  <option  value="1" ng-model="calc.width">1</option>
+										   <option  value="2" ng-model="calc.width">2</option>
+										    <option  value="3" ng-model="calc.width">3</option>
+											 <option  value="4" ng-model="calc.width">4</option>
+											  <option  value="5" ng-model="calc.width">5</option>
+											   <option  value="6" ng-model="calc.width">6</option>
+											    <option  value="7" ng-model="calc.width">7</option>
+										  
 									</select>
 								</div>
+								
 								<div class="col-xs-0 col-sm-5 col-md-5 col-lg-5">
 								</div>
 								</div>
@@ -68,39 +55,40 @@
 							  
 							  <div class="form-group">
 								<label for="width">Height:</label>
-								<input type="text" class="form-control" id="height" placeholder="height">
+								<input type="text" class="form-control" id="height" placeholder="height" ng-model="calc.height">
 							  </div>
 							  
 							  <div class="form-group">
 								<label for="color">Color</label>
 									<select class="form-control" id="color">
-										  <option>s/w</option>
-										  <option>s/w + 1 color</option>
-										  <option>s/w + 2 color</option>
-										  <option>4c</option>
+										  <option ng-repeat="color in colors" value="{{color.id}}" ng-model="calc.color">{{color.name}}</option>
+										  
 									</select>
 							  </div>
 							  
 							  <div class="form-group">
-								<label class="radio-inline">
-								<input type="radio" name="pricelist" id="pricelist_normal" value="option1"> normal pricelist
+								<label class="radio-inline" ng-repeat="pricetype in pricetypes">
+								<input type="radio" name="pricelist" id="pricelist_normal" value="{{pricetype.id}}" ng-model="calc.pricetype"> {{pricetype.name}} pricelist
 								</label>
-								<label class="radio-inline">
-								<input type="radio" name="pricelist" id="pricelist_local" value="option2"> local pricelist
-								</label>
+								
 								</div>
 								<div class="form-group">
 									<label for="days">Days of publication</label>
-									<input type="text" class="form-control" id="days" placeholder="1">
+									<input type="text" class="form-control" id="days" placeholder="1" ng-model="calc.days">
 								</div>
 								<div class="form-group">
 									<label for="discount">Discount</label>
-									<input type="text" class="form-control" id="discount" placeholder="10 = 10%">
+									<input type="text" class="form-control" id="discount" placeholder="10 = 10%" ng-model="calc.discount">
 								</div>
 							  <button type="submit" class="btn btn-primary">Calculate</button>
 						</form>
 					</div>
 					<!-- /.col-->
+					<div class="row">
+						<div class="col-lg-8 col-md-12">
+						<div class="alert alert-info" role="alert" ng-if="total != 0">{{total}} Euro</div>
+						</div>
+					</div>
                 </div>
                 <!-- /.row -->
 

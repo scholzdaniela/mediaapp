@@ -2,8 +2,8 @@
             
                 <ul class="nav navbar-nav side-nav">
                    
-					<li ng-repeat="product in navproducts">
-                        <a ui-sref="app.calculator.{{document.id}}" class="a-sidebar">{{document.name}}</a>
+					<li ng-repeat="product in calcproducts | limitTo : 2">
+                        <a ui-sref="app.calculator.{{product.id}}" class="a-sidebar">{{product.name}}</a>
                     </li>
 
                 </ul>

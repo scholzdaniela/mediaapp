@@ -1,0 +1,95 @@
+
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Calculator <small>Daily Newspapers - Advertisements</small>
+                        </h1> 
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+					<div class="col-lg-8 col-md-12">
+						<form name="daily_adv_Form">
+							  <div class="form-group">
+								<label for="edition">Edition</label>
+									<div class="checkbox" ng-repeat="publication in publications">
+									<label>
+									  <input type="checkbox" id="edition1" value="publication.id"> publication.name
+									</label>
+									</div>
+									
+							  </div>
+							  
+							  <div class="form-group">
+								<label for="special_format">Special Format</label>
+									<select class="form-control" id="special_format">
+										  <option>none</option>
+										  <option>Griffecke</option>
+										  <option>Titellopf</option>
+										  <option>Sponsoring Anzeige 7sp/25mm</option>
+										  <option>Sponsoring Anzeige 3sp/20mm</option>
+										  <option>Anzeigenstrecke</option>
+									</select>
+							  </div>
+							  
+							  <div class="form-group">
+								<label for="width">Width</label></br>
+								<div class="row">
+								<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+								<input type="text" class="form-control" id="width" placeholder="width">
+								</div>
+								<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+									<select class="form-control" id="width_unit">
+										  <option>columns</option>
+										  <option>mm</option>
+									</select>
+								</div>
+								<div class="col-xs-0 col-sm-5 col-md-5 col-lg-5">
+								</div>
+								</div>
+							  </div>
+							  
+							  <div class="form-group">
+								<label for="width">Height:</label>
+								<input type="text" class="form-control" id="height" placeholder="height">
+							  </div>
+							  
+							  <div class="form-group">
+								<label for="color">Color</label>
+									<select class="form-control" id="color">
+										  <option>s/w</option>
+										  <option>s/w + 1 color</option>
+										  <option>s/w + 2 color</option>
+										  <option>4c</option>
+									</select>
+							  </div>
+							  
+							  <div class="form-group">
+								<label class="radio-inline">
+								<input type="radio" name="pricelist" id="pricelist_normal" value="option1"> normal pricelist
+								</label>
+								<label class="radio-inline">
+								<input type="radio" name="pricelist" id="pricelist_local" value="option2"> local pricelist
+								</label>
+								</div>
+								<div class="form-group">
+									<label for="days">Days of publication</label>
+									<input type="text" class="form-control" id="days" placeholder="1">
+								</div>
+								<div class="form-group">
+									<label for="discount">Discount</label>
+									<input type="text" class="form-control" id="discount" placeholder="10 = 10%">
+								</div>
+							  <button type="submit" class="btn btn-primary">Calculate</button>
+						</form>
+					</div>
+					<!-- /.col-->
+                </div>
+                <!-- /.row -->
+
+                
+
+               

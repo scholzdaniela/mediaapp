@@ -73,6 +73,28 @@ angular
 				abstract: true
             })
 			
+			        // route for the home page -> mediadata overview
+            .state('app.profile', {
+                url:'profile',
+                views: {
+                    'header': {
+                        templateUrl : 'views/header.html',
+						controller  : 'HeaderController'
+                    },
+                    'content': {
+                        templateUrl : 'views/content/profile.html',
+                        controller  : 'ProfileController'
+                    }
+                    
+                },
+				data: {
+						container_name: 'xxx',
+						filename: 'xxx',
+						title: 'xxx'
+				},
+				module: 'private'
+            })
+			
                     // route for the home page -> mediadata overview
             .state('app.mediadata', {
                 url:'mediadata',
@@ -161,17 +183,56 @@ angular
                     },
                     'content': {
                         templateUrl : 'views/content/calculator.html',
-                        controller  : ''
+                        controller  : 'CalculatorController'
                      },
 					  'sidebar': {
                         templateUrl : 'views/sidebar/calculator.html',
-						controller  : 'SidebarController'
+						controller  : 'CalculatorController'
                      }
                 },
 				data: {
 						container_name: '',
 						filename: '',
-						title: 'Daily Newspapers'
+						title: 'Daily Newspapers',
+						id: '31957400b8a440db54a7d4061499d4f8'
+				}, 
+				module: 'private'
+            })
+			
+			//app.calculator.03ddac54d3aeb880e919dbb7401bd9db
+			.state('app.calculator.03ddac54d3aeb880e919dbb7401bd9db', {
+                url:'calculator/03ddac54d3aeb880e919dbb7401bd9db',
+                views: {
+					
+                    'content@': {
+                        templateUrl : 'views/content/calculator.html',
+                        controller  : 'CalculatorController'
+                     }
+                },
+				data: {
+						container_name: '',
+						filename: '',
+						title: 'Weekly Newspapers',
+						id: '03ddac54d3aeb880e919dbb7401bd9db'
+				}, 
+				module: 'private'
+            })
+			
+			//app.calculator.31957400b8a440db54a7d4061499d4f8
+			.state('app.calculator.31957400b8a440db54a7d4061499d4f8', {
+                url:'calculator/31957400b8a440db54a7d4061499d4f8',
+                views: {
+					
+                    'content@': {
+                        templateUrl : 'views/content/calculator.html',
+                        controller  : 'CalculatorController'
+                     }
+                },
+				data: {
+						container_name: '',
+						filename: '',
+						title: 'Daily Newspapers',
+						id: '31957400b8a440db54a7d4061499d4f8'
 				}, 
 				module: 'private'
             })
@@ -185,7 +246,7 @@ angular
 						controller  : 'HeaderController'
                     },
                     'content': {
-                        templateUrl : 'views/404.html',
+                        templateUrl : 'views/content/consultant.html',
                         controller  : ''
                      },
 					 'sidebar': {
@@ -198,6 +259,7 @@ angular
 						title: 'Consultant Area'
 					}, 
 				module: 'private'
+				
             })
 			
 			       // route for the consultant pages

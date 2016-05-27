@@ -1,0 +1,24 @@
+data:image/png;base64,
+
+advert
+normal: f188a0701564c5f84cfd02deead82653
+sponsoring: 1570b154a4ca6cac1df5b7081a49fdcf
+
+color
+sw: e161ce049e332317c3a909c3545dd066
+689dba28a27b4cd39dec76f1f68d91bb
+
+pricetype
+local: 86c0a7aa7f0f7a9b6c843bd5a2ae1174
+normal: 29d6096ca56832f0e8d94a7fbd0c3746
+
+product weekly:03ddac54d3aeb880e919dbb7401bd9db
+pub1: 3332b170c580839341bddd33a6c65282
+pub2: 7014e2112f6301763432c20d07a65fb5
+pub3: 689dba28a27b4cd39dec76f1f6efcb70
+
+product weekly: 31957400b8a440db54a7d4061499d4f8
+pub1: 075eb0f8bec884540ec81d00fa66c808
+pub2: a2d3881e71e112f924f5b17df1ed3586
+
+?filter[where][AND][productId]=03ddac54d3aeb880e919dbb7401bd9db&filter[where][AND][publicationId]=3332b170c580839341bddd33a6c65282&filter[where][AND][pricetypeId]=29d6096ca56832f0e8d94a7fbd0c3746&filter[where][AND][colorId]=e161ce049e332317c3a909c3545dd066&filter[where][AND][advertisementtypeId]=f188a0701564c5f84cfd02deead82653
