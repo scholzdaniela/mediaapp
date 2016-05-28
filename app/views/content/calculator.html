@@ -17,7 +17,7 @@
 								<label for="edition">Edition</label>
 									<div class="checkbox" ng-repeat="publication in publications">
 									<label>
-									  <input type="checkbox" id="edition1" value="{{publication.id}}" ng-model="calc.publication.id"> {{publication.name}}
+									  <input type="checkbox" id="{{publication.id}}" value="{{publication.id}}" ng-model="calc.publication"> {{publication.name}}
 									</label>
 									</div>
 									

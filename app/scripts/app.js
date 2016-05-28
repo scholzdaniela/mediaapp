@@ -201,7 +201,7 @@ angular
 			
 			//app.calculator.03ddac54d3aeb880e919dbb7401bd9db
 			.state('app.calculator.03ddac54d3aeb880e919dbb7401bd9db', {
-                url:'calculator/03ddac54d3aeb880e919dbb7401bd9db',
+                url:'/03ddac54d3aeb880e919dbb7401bd9db',
                 views: {
 					
                     'content@': {
@@ -220,7 +220,7 @@ angular
 			
 			//app.calculator.31957400b8a440db54a7d4061499d4f8
 			.state('app.calculator.31957400b8a440db54a7d4061499d4f8', {
-                url:'calculator/31957400b8a440db54a7d4061499d4f8',
+                url:'/31957400b8a440db54a7d4061499d4f8',
                 views: {
 					
                     'content@': {

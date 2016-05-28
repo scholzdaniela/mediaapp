@@ -365,9 +365,15 @@ angular.module('mediaAppApp')
 				productFactory.getPublications(id)
 					.then(function (response) {
 						console.log(response);
+						$scope.publicationslength = response.data.length;
 					$scope.publications = response.data;
-					$scope.publicationslength = response.data.length;
+					
+						for (var i=0; i< $scope.publicationslength; i++){
+							$scope.publications[i].selected= false ;
+						}
+					
 					console.log($scope.publicationslength);
+					console.log($scope.publications);
 				}, function (error) {
 					$scope.status = 'Unable to load products data: ' + error.message;
 				});
@@ -447,12 +453,15 @@ angular.module('mediaAppApp')
 				} else {
 					mm = 8193.75; // hard coded value for second type ... has to be dynamic
 				}
-				
-				for (i = 1; i <= publicationslength; i++){
-					if (calc.publication == false){
+				  
+				for (var i = 0; i < $scope.publicationslength; i++){
+					
+					/**to do! **/
+					$scope.publications[i] == calc.publication
+					if (calc.publication.id == false){
 						continue;
 					}
-					publicationId = calc.publication.id(i); //does not work
+					publicationId = calc.publication.id; 
 					console.log(publicationId);
 					calcFactory.getPrice(productId, publicationId, colorId, pricetypeId, advertisementtypeId)
 							.then(function (response) {
