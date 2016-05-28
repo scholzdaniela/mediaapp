@@ -10,8 +10,8 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-						<div class="wrapper" ng-controller="DocCtrl">
-							<ng-pdf template-url="views/viewer.html" canvasid="pdf" scale="1"></ng-pdf>
+						<div class="wrapper" id="filename_id" ng-controller="DocCtrl" ng-dblclick="handleFullscreen(filename_id)" fullscreen>
+							<ng-pdf template-url="views/viewer.html" canvasid="pdf" scale="page-fit"></ng-pdf>
 						</div>
 					</div>
                 </div>

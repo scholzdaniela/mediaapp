@@ -2,9 +2,18 @@
   <button ng-click="zoomIn()">+</span></button>
   <button ng-click="fit()">100%</span></button>
   <button ng-click="zoomOut()">-</span></button>
-
+	<!--
   <span>Document URL: </span>
   <input type="text" ng-model="pdfUrl">
+  -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  
+  <button type="button" class="btn btn-default" aria-label="Left Align" ng-click="sendMail(pdfUrl)">
+  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+	</button>
+  <button class="g-plus" style="margin-top:5px" data-action="share" data-href="{{pdfUrl}}" data-height="24"></button>
+  
 </nav>
 
 <hr>

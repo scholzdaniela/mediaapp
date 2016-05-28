@@ -204,22 +204,22 @@ angular.module('mediaAppApp')
 		var username = $rootScope.globals.currentUser.username;
 		
 		scribbleFactory.uploadScribble = function (File) {
-			console.log(baseURL + 'containers/' + username + '/upload');
-			return $http.post(baseURL + 'containers/' + username + '/upload', File, {
+			console.log(baseURL + 'docs/' + username + '/upload');
+			return $http.post(baseURL + 'docs/' + username + '/upload', File, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}}); 
 		};
 		
 		scribbleFactory.getScribbles = function () {
-			return $http.get(baseURL + 'containers/' + username + '/files');
+			return $http.get(baseURL + 'docs/' + username + '/files');
 		};
 		
 		scribbleFactory.getDownloadURL = function (filename) {
-			return baseURL + 'containers/' + username + '/download/' + filename + '?access_token=' + $rootScope.globals.currentUser.authToken;
+			return baseURL + 'docs/' + username + '/download/' + filename + '?access_token=' + $rootScope.globals.currentUser.authToken;
 		};
 		
 		scribbleFactory.deleteScribble = function (filename) {
-			return $http.delete(baseURL + 'containers/' + username + '/files/' + filename);
+			return $http.delete(baseURL + 'docs/' + username + '/files/' + filename);
 		};
 		
 		

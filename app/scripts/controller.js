@@ -31,17 +31,28 @@ angular.module('mediaAppApp')
 		}])
 		
 		
-		.controller('DocCtrl', ['$scope', '$rootScope', '$state', function($scope, $rootScope, $state) {
+		.controller('DocCtrl', ['$scope', '$rootScope', '$state', 'Fullscreen', function($scope, $rootScope, $state, Fullscreen) {
 			console.log("DocCtrl");
 			
 			
 					var container_name =  $state.current.data.container_name;
 					var filename = $state.current.data.filename;
+					//get filename for fullscreen id
+					$scope.filename_id = $state.current.data.filename;
 					$scope.title = $state.current.data.title;
 					console.log(container_name, filename,$scope.title);
 
 					$scope.pdfUrl = 'http://mediaapp-restserver.eu-gb.mybluemix.net/api/' + 'containers/' + container_name + '/download/' + filename + '.pdf'+'?access_token='+ $rootScope.globals.currentUser.authToken;
 					console.log($scope.pdfUrl);
+					
+					$scope.handleFullscreen =function(filename_id){
+						console.log(filename_id);
+						if (Fullscreen.isEnabled()){
+							 Fullscreen.cancel();
+						}else{
+							 Fullscreen.enable( filename_id);
+						}
+					}
 		}])
 		
 		.controller('DocumentsController', ['$scope', 'productFactory', function($scope, productFactory) {
@@ -202,12 +213,12 @@ angular.module('mediaAppApp')
 					var dataUrl = $scope.zwibbler.save("png");
 					//var dataUrl = $scope.zwibbler.toDataURL('image/png', 0.5);
 					
-					var data = dataUrl.slice(22);
-					console.log(data);
+					//var data = dataUrl.slice(22);
+					//console.log(data);
 					
 					
-					//var blob = dataURItoBlob(dataUrl);
-					var blob = new Blob([data], {type: 'image/png'});
+					var blob = dataURItoBlob(dataUrl);
+					//var blob = new Blob([data], {type: 'image/png'});
 					var file = new File([blob], filename +'.png');
 					
 					 var fd = new FormData();
