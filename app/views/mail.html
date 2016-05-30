@@ -1,0 +1,38 @@
+
+  <div class="ngdialog-message">
+   
+      
+        
+        <div class="modal-body">
+          <p>Send Mail</p>
+        </div>
+		<form name="form" ng-submit="sendMail(mailoptions)" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.filename.$dirty && form.filename.$error.required }">
+            <label for="receiver">Receiver</label>
+            <input type="email" name="receiver" id="receiver" class="form-control" ng-model="mailoptions.receiver" required />
+            <span ng-show="form.receiver.$dirty && form.receiver.$error.required" class="help-block">Receiver is required</span>
+        </div>
+		
+		<div class="form-group" ng-class="{ 'has-error': form.contactName.$dirty && form.contactName.$error.required }">
+            <label for="contactName" >contactName</label>
+            <input type="text" name="contactName" id="contactName" class="form-control" ng-model="mailoptions.contactName" required />
+            <span ng-show="form.contactName.$dirty && form.contactName.$error.required" class="help-block">contactName is required</span>
+        </div>
+		
+		<div class="form-group">
+            <label for="messageText" >messageText</label>
+            <textarea name="messageText" id="messageText" class="form-control" ng-model="mailoptions.messageText"> </textarea>
+        </div>
+		
+        
+        <div class="form-actions">
+         <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Send</button>
+          <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+        </div>
+    </form>
+       
+      
+   
+  </div>
+
+

@@ -8,7 +8,7 @@
  * Controller of the mediaAppApp
  */
 angular.module('mediaAppApp')
-		.controller('SidebarController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
+		.controller('SidebarController',  ['$scope', 'productFactory', function ($scope, productFactory) {
 			
 			$scope.status;
 			$scope.navproducts;
@@ -31,18 +31,19 @@ angular.module('mediaAppApp')
 		}])
 		
 		
-		.controller('DocCtrl', ['$scope', '$rootScope', '$state', 'Fullscreen', function($scope, $rootScope, $state, Fullscreen) {
+		.controller('DocCtrl', ['$scope', '$rootScope', '$state', 'Fullscreen', 'ngDialog', '$controller', function($scope, $rootScope, $state, Fullscreen, ngDialog, $controller) {
 			console.log("DocCtrl");
 			
 			
-					var container_name =  $state.current.data.container_name;
-					var filename = $state.current.data.filename;
+					$scope.container_name =  $state.current.data.container_name;
+					$scope.filename = $state.current.data.filename;
+					
 					//get filename for fullscreen id
 					$scope.filename_id = $state.current.data.filename;
 					$scope.title = $state.current.data.title;
-					console.log(container_name, filename,$scope.title);
+					console.log($scope.container_name, $scope.filename,$scope.title);
 
-					$scope.pdfUrl = 'http://mediaapp-restserver.eu-gb.mybluemix.net/api/' + 'containers/' + container_name + '/download/' + filename + '.pdf'+'?access_token='+ $rootScope.globals.currentUser.authToken;
+					$scope.pdfUrl = 'http://mediaapp-restserver.eu-gb.mybluemix.net/api/' + 'containers/' + $scope.container_name + '/download/' + $scope.filename + '.pdf'+'?access_token='+ $rootScope.globals.currentUser.authToken;
 					console.log($scope.pdfUrl);
 					
 					$scope.handleFullscreen =function(filename_id){
@@ -52,7 +53,15 @@ angular.module('mediaAppApp')
 						}else{
 							 Fullscreen.enable( filename_id);
 						}
-					}
+					};
+					
+					$scope.sendMail = function (type, container, filename){
+						$scope.type = type;
+						$scope.filename = filename;
+						$scope.container = container;
+						$scope.state = $state.current.name;
+						ngDialog.open({ template: 'views/mail.html', scope: $scope, className: 'ngdialog-theme-default', controller: $controller('MailController', {$scope: $scope})});
+					};
 		}])
 		
 		.controller('DocumentsController', ['$scope', 'productFactory', function($scope, productFactory) {
@@ -91,7 +100,7 @@ angular.module('mediaAppApp')
 						$scope.status = 'Unable to load  data: ' + error.message;
 						console.log(error.message);
 					});
-				}
+				};
 				
 				
 				$scope.addCustomer = function(){
@@ -105,7 +114,7 @@ angular.module('mediaAppApp')
 						$scope.status = 'Unable to load data: ' + error.message;
 						console.log(error);
 					});
-				}
+				};
 				
 				
 				
@@ -119,7 +128,7 @@ angular.module('mediaAppApp')
 				$scope.customer = {name: '', contact_person: '', mobile: '', phone: '', address_name: '', address_street: '', address_zip: '', address_city: '', address_country: '', information:'', notes: []};
 				$scope.title = $stateParams.title;
 				$scope.status = '';
-				$scope.itemId = $stateParams.itemId;;
+				$scope.itemId = $stateParams.itemId;
 				
 				console.log('title: ' + $scope.title);
 				console.log('ItemId: ' + $scope.itemId);
@@ -127,7 +136,7 @@ angular.module('mediaAppApp')
 				 
 				 function getItem() {
 					 console.log('functionstart');
-					if ($scope.title == 'Notes'){
+					if ($scope.title === 'Notes'){
 						
 							console.log('notes');
 							notesFactory.getNote($scope.itemId)
@@ -140,7 +149,7 @@ angular.module('mediaAppApp')
 							});
 						
 					} 
-					else if ($scope.title == 'Customers'){
+					else if ($scope.title === 'Customers'){
 						
 							console.log('customer');
 							customerFactory.getCustomer($scope.itemId)
@@ -172,7 +181,7 @@ angular.module('mediaAppApp')
 						$scope.status = 'Unable to load  data: ' + error.message;
 						console.log(error.message);
 					});
-				}
+				};
 				
 				
 				$scope.editCustomer = function(){
@@ -185,15 +194,16 @@ angular.module('mediaAppApp')
 						$scope.status = 'Unable to load data: ' + error.message;
 						console.log(error);
 					});
-				}
+				};
 				
 				
 				
 		}])
 		
-		.controller('ScribbleController', ['$scope', '$rootScope', '$state', '$stateParams', 'scribbleFactory', 'ngDialog', function($scope, $rootScope, $state, $stateParams, scribbleFactory, ngDialog) {
+		.controller('ScribbleController', ['$scope', '$rootScope', '$state', '$stateParams', 'scribbleFactory', 'ngDialog', '$controller', function($scope, $rootScope, $state, $stateParams, scribbleFactory, ngDialog, $controller) {
 				
 				$scope.zwibbler;
+			
 				 
 				 function startZwibbler() {
 					$scope.zwibbler = Zwibbler.create("zwibbler", {
@@ -201,6 +211,31 @@ angular.module('mediaAppApp')
 							});
 				}
 				startZwibbler();
+				
+				
+				//check container existence
+				 function checkContainer() {
+					//check if container exists
+					scribbleFactory.findScribbleContainerByUser()
+							.then(function (response) {
+									console.log('container exists');
+							}, function (error) {
+								console.log(error);
+								if (error.statusText === "Not Found") {
+									scribbleFactory.createScribbleContainer()
+									.then(function (response) {
+										console.log('container created');
+										
+									}, function (error) {
+										
+									});
+									
+									
+								}
+							
+							});
+				 }
+				checkContainer();
 				
 					
 				//to do filename
@@ -210,64 +245,85 @@ angular.module('mediaAppApp')
 				
 				$scope.onSave = function(filename) {
 					
-					var dataUrl = $scope.zwibbler.save("png");
-					//var dataUrl = $scope.zwibbler.toDataURL('image/png', 0.5);
 					
-					//var data = dataUrl.slice(22);
-					//console.log(data);
 					
+					
+					
+					
+					
+					var dataUrl = $scope.dataUrl;
+					console.log(dataUrl);
 					
 					var blob = dataURItoBlob(dataUrl);
-					//var blob = new Blob([data], {type: 'image/png'});
+					
+					
+					console.log(blob);
 					var file = new File([blob], filename +'.png');
 					
+					console.log(file);
 					 var fd = new FormData();
 					fd.append('file', file);
         
 					scribbleFactory.uploadScribble(fd)
 					.then(function (response) {
+						console.log(response);
 						ngDialog.close();
-						$scope.saved = true,
+						$scope.saved = true;
 						$scope.savedas = filename + '.png';
 				}, function (error) {
-					
+					gDialog.close();
+					$scope.saved = true;
 					$scope.savedas = 'Unable to uploads data: ' + error.message;
 				});
-				}
+				};
 
 				
 				function dataURItoBlob(dataURI) {
-					'use strict'
+					console.log('dataURItoblob');
 					var byteString, 
-						mimestring 
-
+						mimestring ;
+					console.log(dataURI);
 					if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
-						byteString = atob(dataURI.split(',')[1])
+						byteString = atob(dataURI.split(',')[1]);
+						console.log(byteString);
 					} else {
-						byteString = decodeURI(dataURI.split(',')[1])
+						byteString = decodeURI(dataURI.split(',')[1]);
+						console.log(byteString);
 					}
 
-					mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
+					mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
 					var content = new Array();
 					for (var i = 0; i < byteString.length; i++) {
-						content[i] = byteString.charCodeAt(i)
+						content[i] = byteString.charCodeAt(i);
 					}
 
 					return new Blob([new Uint8Array(content)], {type: mimestring});
 				}
 				
+				function blobToFile(blob, fileName){
+					//A Blob() is almost a File() - it's just missing the two properties below which we will add
+					blob.lastModifiedDate = new Date();
+					blob.name = fileName;
+					
+					console.log('blobToFile');
+					return blob;
+				}
+				
 							
 				$scope.onImage = function() {
 					var dataUrl = $scope.zwibbler.save("png");
+					console.log($scope.zwibbler);
 					window.open(dataUrl, "other");
-				}
+				};
 		
 						
 				$scope.save = function(){
-					ngDialog.open({ template: 'views/save.html', scope: $scope, className: 'ngdialog-theme-default', controller:"ScribbleController" });
+					$scope.dataUrl = $scope.zwibbler.save("png");
+					ngDialog.open({ template: 'views/save.html', scope: $scope, className: 'ngdialog-theme-default', controller: $controller('ScribbleController', {$scope: $scope})});
 				
-				}		
+
+				};		
 				
 				
 				
@@ -277,9 +333,45 @@ angular.module('mediaAppApp')
 				
 		}])
 		
-		
-		
-		
+		.controller('MailController',  ['$scope', 'mailFactory', '$state', '$stateParams', '$rootScope', 'ngDialog', '$controller', function ($scope, mailFactory, $state, $stateParams, $rootScope, ngDialog, $controller) {
+				
+				var name = $rootScope.globals.currentUser.firstname + ' ' + $rootScope.globals.currentUser.lastname;
+				var usermail = $rootScope.globals.currentUser.email;
+				$scope.mailoptions ={receiver: usermail, contactName: name, messageText: '', title: '', path: '' };
+				
+				$scope.sendMail = function(mailoptions){
+					var type = $scope.type;
+					var filename =	$scope.filename;
+					var container = $scope.container;
+					var path='';
+					var state = $scope.state;
+					
+					if (type === 'pdf'){
+						path = "files/" + container +'/'+ filename +'.pdf';
+					} else {
+						path = "documents/" + container + '/'+ filename;
+					}
+					
+					var options = {receiver: mailoptions.receiver, contactName: mailoptions.contactName, messageText: mailoptions.messageText, title: '', path: path };
+					
+					mailFactory.sendMail(options)
+							.then(function (response) {
+								ngDialog.close();
+								$state.go(state);
+							}, function (error) {
+								console.log(error);
+								ngDialog.open({ template: 'views/error_mail.html', scope: $scope, className: 'ngdialog-theme-default', controller: $controller('MailController', {$scope: $scope})});
+				});
+				
+				
+				};
+				
+				
+				$scope.close = function(){
+					ngDialog.close();
+				};
+
+		}])
 		
 		.controller('ProductController',  ['$scope', 'productFactory', '$state', '$stateParams', function ($scope, productFactory, $state, $stateParams) {
 			
@@ -459,7 +551,7 @@ angular.module('mediaAppApp')
 				} 
 				var subtotal = 0;
 				var mm = 0;
-				if (pricetypeId == 'f188a0701564c5f84cfd02deead82653'){
+				if (pricetypeId === 'f188a0701564c5f84cfd02deead82653'){
 					mm = width * height; 
 				} else {
 					mm = 8193.75; // hard coded value for second type ... has to be dynamic
@@ -468,11 +560,11 @@ angular.module('mediaAppApp')
 				for (var i = 0; i < $scope.publicationslength; i++){
 					
 					/**to do! **/
-					$scope.publications[i] == calc.publication
-					if (calc.publication.id == false){
+					$scope.publications[i] = calc.publication;
+					if (calc.publication.id === false){
 						continue;
 					}
-					publicationId = calc.publication.id; 
+					var publicationId = calc.publication.id; 
 					console.log(publicationId);
 					calcFactory.getPrice(productId, publicationId, colorId, pricetypeId, advertisementtypeId)
 							.then(function (response) {
@@ -622,11 +714,12 @@ angular.module('mediaAppApp')
 		
 		
 		//list controller
-		.controller('ScribbleListController', ['$scope', 'listFactory', '$state', '$rootScope', 'scribbleFactory', 'ngDialog', '$stateParams', function($scope, listFactory, $state, $rootScope, scribbleFactory, ngDialog, $stateParams) {
+		.controller('ScribbleListController', ['$scope', 'listFactory', '$state', '$rootScope', 'scribbleFactory', 'ngDialog', '$stateParams', '$controller', function($scope, listFactory, $state, $rootScope, scribbleFactory, ngDialog, $stateParams, $controller) {
 				$scope.scribbles;
 				$scope.scribblename;
 				$scope.showDetail = false
 				$scope.imageurl ='';
+				$scope.filename = '';
 				
 						var title =  $state.current.data.title;
 						var username = $rootScope.globals.currentUser.username;
@@ -679,7 +772,7 @@ angular.module('mediaAppApp')
 				$scope.resetScribbelName = function(){
 					$scope.scribblename = '';
 					ngDialog.close();
-				}
+				};
 				
 				$scope.showDetail = function(scribblename){
 					
@@ -687,10 +780,20 @@ angular.module('mediaAppApp')
 					
 						console.log('scribble get imageurl' + scribblename);
 						$scope.imageurl =scribbleFactory.getDownloadURL(scribblename)
-						$scope.showDetail = true;			
+						$scope.showDetail = true;		
+						$scope.filename = scribblename;
 					
 					
-				}
+				};
+				
+				$scope.sendMail = function (type, filename){
+						$scope.type = type;
+						$scope.filename = filename;
+						console.log($scope.filename);
+						$scope.container = $rootScope.globals.currentUser.username;;
+						$scope.state = $state.current.name;
+						ngDialog.open({ template: 'views/mail.html', scope: $scope, className: 'ngdialog-theme-default', controller: $controller('MailController', {$scope: $scope})});
+					};
 				
 				
 		}])

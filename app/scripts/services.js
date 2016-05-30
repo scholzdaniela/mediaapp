@@ -1,6 +1,7 @@
 'use strict';
 angular.module('mediaAppApp')
 		.constant("baseURL", "http://mediaapp-restserver.eu-gb.mybluemix.net/api/")
+		//change base url also at mailfactory manually
 		
 		.factory('productFactory', ['$http', 'baseURL', function($http, baseURL) {
 		var productFactory = {};
@@ -222,11 +223,35 @@ angular.module('mediaAppApp')
 			return $http.delete(baseURL + 'docs/' + username + '/files/' + filename);
 		};
 		
+		scribbleFactory.findScribbleContainerByUser = function () {
+			return $http.get(baseURL + 'docs/' + username);
+		};
+		
+		scribbleFactory.createScribbleContainer = function () {
+			return $http.post(baseURL + 'docs', {name: username});
+		};
+		
 		
 		
 		return scribbleFactory;
 
 		}])
+		
+		
+		.factory('mailFactory', ['$http', 'baseURL', function($http, baseURL) {
+		var mailFactory = {};
+		
+		
+		
+		mailFactory.sendMail = function (options) {
+			return $http.post('http://mediaapp-restserver.eu-gb.mybluemix.net/' + 'mail', options); 
+		};
+		
+
+		return mailFactory;
+
+		}])
+		
 		
 		
 		.factory('pdfFactory', ['$http', 'baseURL', '$state', '$rootScope', function($http, baseURL, $state, $rootScope) {
