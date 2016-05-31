@@ -514,6 +514,7 @@ angular.module('mediaAppApp')
 			getPricetypes();
 			
 			$scope.calculate = function(calc) {
+				console.log(calc);
 				var productId = $state.current.data.id;
 				var advertisementtype = calc.type;
 				var pricetypeId = calc.pricetype;
