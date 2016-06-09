@@ -105,9 +105,9 @@ angular.module('mediaAppApp')
 			return $http.delete(baseURL + 'pricetypes' + '/' + id);
 		};
 		
-		//price
+		//price not correct yet, and is missing
 		calcFactory.getPrice = function (productId, publicationId, colorId, pricetypeId, advertisementtypeId) {
-			return $http.get(baseURL + 'prices/' + '?filter[where][AND][productId]=' + productId + '&filter[where][AND][publicationId]=' + publicationId + '&filter[where][AND][pricetypeId]=' + pricetypeId + '&filter[where][AND][colorId]=' + colorId + '&filter[where][AND][advertisementtypeId]=' + advertisementtypeId);
+			return $http.get(baseURL + 'prices' + '?filter[where][productId]=' + productId + '&filter[where][publicationId]=' + publicationId + '&filter[where][pricetypeId]=' + pricetypeId + '&filter[where][colorId]=' + colorId + '&filter[where][advertisementtypeId]=' + advertisementtypeId);
 		};
 		
 		

@@ -426,7 +426,7 @@ angular.module('mediaAppApp')
 			
 		}])
 		
-		.controller('CalculatorController',  ['$scope', 'productFactory', '$state', '$stateParams', 'calcFactory', function ($scope, productFactory, $state, $stateParams, calcFactory) {
+		.controller('CalculatorController',  ['$scope', 'productFactory', '$state', '$stateParams', 'calcFactory', '$q', function ($scope, productFactory, $state, $stateParams, calcFactory, $q) {
 			
 			$scope.status;
 			$scope.calcproducts;
@@ -439,7 +439,7 @@ angular.module('mediaAppApp')
 			$scope.colors = {};
 			$scope.pricetypes = {};
 			$scope.total= 0;
-			
+			$scope.calcpublication = [];
 
 			
 			 
@@ -516,7 +516,7 @@ angular.module('mediaAppApp')
 			$scope.calculate = function(calc) {
 				console.log(calc);
 				var productId = $state.current.data.id;
-				var advertisementtype = calc.type;
+				var advertisementtypeId = calc.type;
 				var pricetypeId = calc.pricetype;
 				var colorId = calc.color;
 				var height = calc.height;
@@ -550,17 +550,57 @@ angular.module('mediaAppApp')
 					default:
 						
 				} 
-				var subtotal = 0;
+				$scope.subtotal = 0;
 				var mm = 0;
-				if (pricetypeId === 'f188a0701564c5f84cfd02deead82653'){
+				if (advertisementtypeId === 'f188a0701564c5f84cfd02deead82653'){
+					console.log('type normal');
 					mm = width * height; 
 				} else {
 					mm = 8193.75; // hard coded value for second type ... has to be dynamic
 				}
+				var promises = [];
+				
+				for (var i in $scope.calcpublication) {
+        
+					if ($scope.calcpublication[i] == true) {
+						console.log('true');
+						console.log(i); 
+						
+						var publicationId = i;
+						console.log(publicationId);
+						promises.push(
+							calcFactory.getPrice(productId, publicationId, colorId, pricetypeId, advertisementtypeId)
+									.then(function (response) {
+										console.log(response.data);
+										console.log(response.data[0].value);
+										var price = parseFloat(response.data[0].value);
+										console.log(price, mm, days);
+										$scope.subtotal = $scope.subtotal + ((((price * mm) / 100) * days));
+										console.log($scope.subtotal);
+									}, function (error) {
+										$scope.status = 'Unable to load products data: ' + error.message;
+										console.log('Unable to load products data: ');
+									}));
+						//);
+					   
+					};
+				}
+				
+				$q.all(promises)
+					.then(function(){
+						var total = $scope.subtotal * (100 - discount)
+				console.log(total);
+				$scope.total = total;
+				console.log($scope.total);
+					});
+				
+				
+				
+				/*
 				  
 				for (var i = 0; i < $scope.publicationslength; i++){
 					
-					/**to do! **/
+					
 					$scope.publications[i] = calc.publication;
 					if (calc.publication.id === false){
 						continue;
@@ -579,6 +619,7 @@ angular.module('mediaAppApp')
 				};
 				var total = subtotal *(100-discount)
 				$scope.total= total;
+				*/
 			}
 			
 			
