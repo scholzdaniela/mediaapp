@@ -132,7 +132,7 @@ angular
 				   data: {
 						container_name: 'another',
 						filename: 'Mediadaten-2016-Print_11',
-						title: 'Mediadaten'
+						title: 'Mediadata'
 					}, 
 				module: 'private'
             })
@@ -150,7 +150,7 @@ angular
 				data: {
 						container_name: 'another',
 						filename: 'Mediadaten-2016-Print_11',
-						title: 'Mediadaten'
+						title: 'Mediadata 2'
 					}, 
 				module: 'private'
             })
@@ -168,7 +168,25 @@ angular
 				data: {
 						container_name: 'another',
 						filename: 'Mediadaten-2016-Print_11',
-						title: 'Mediadaten'
+						title: 'Data Sheet 2'
+					}, 
+				module: 'private'
+            })
+			
+			// route for 
+            .state('app.mediadata.2cfd5599899cc72256ed4054f2d68623', {
+                url:'/objects/documents/2cfd5599899cc72256ed4054f2d68623',
+                views: {
+                    'content@app': {
+                        templateUrl : 'views/content/pdf_view.html',
+						controller  : 'DocCtrl'
+                   }
+				   
+                },
+				data: {
+						container_name: 'another',
+						filename: 'Mediadaten-2016-Print_11',
+						title: 'Other data'
 					}, 
 				module: 'private'
             })
