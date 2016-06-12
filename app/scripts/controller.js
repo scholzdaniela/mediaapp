@@ -271,7 +271,7 @@ angular.module('mediaAppApp')
 						$scope.saved = true;
 						$scope.savedas = filename + '.png';
 				}, function (error) {
-					gDialog.close();
+					ngDialog.close();
 					$scope.saved = true;
 					$scope.savedas = 'Unable to uploads data: ' + error.message;
 				});
@@ -327,7 +327,9 @@ angular.module('mediaAppApp')
 				
 				
 				
-				
+				$scope.close = function(){
+					ngDialog.close();
+				};
 				
 				
 				
